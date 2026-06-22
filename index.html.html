@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contestação de Monitoria — Turbi</title>
+<!--
+  Ginto Normal — fonte comercial ABC Dinamo.
+  Substitua os caminhos abaixo pelos arquivos .woff2 reais ou pela URL do CDN da Turbi.
+  Pesos utilizados: Bold (700) e Black (900).
+-->
+<style>
+  @font-face {
+    font-family: 'Ginto Normal';
+    src: url('fonts/GintoNormal-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Ginto Normal';
+    src: url('fonts/GintoNormal-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Ginto Normal';
+    src: url('fonts/GintoNormal-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'Ginto Normal';
+    src: url('fonts/GintoNormal-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+</style>
+<style>
+  :root {
+    --blue: #0D1473;
+    --blue-light: #1620A8;
+    --cyan: #41B6E6;
+    --dark: #06091C;
+    --gray: #6B7280;
+    --gray-light: #F9FAFB;
+    --green: #16A34A;
+    --green-bg: #F0FDF4;
+    --red: #DC2626;
+    --red-bg: #FEF2F2;
+    --yellow: #D97706;
+    --yellow-bg: #FFFBEB;
+    --border: #E5E7EB;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Ginto Normal', 'Segoe UI', system-ui, sans-serif;
+    background: #F1F5FF;
+    color: #1e1e2e;
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--dark);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.4);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    border-bottom: 3px solid var(--cyan);
+  }
+  .logo-pin img { height: 28px; width: auto; object-fit: contain; }
+
+  .hero {
+    background: linear-gradient(135deg, #07094A 0%, var(--blue) 55%, #1620A8 100%);
+    padding: 40px 32px 36px;
+    color: white;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 16px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 900; line-height: 1.25; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .hero p { font-size: 13px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+  .form-wrap {
+    max-width: 720px;
+    margin: 32px auto 60px;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .block-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(13,20,115,0.08);
+    overflow: hidden;
+    border: 1.5px solid transparent;
+  }
+  .block-card.active { border-color: rgba(13,20,115,0.2); }
+
+  .block-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .block-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .block-title { font-size: 14px; font-weight: 900; color: var(--blue); letter-spacing: -0.01em; }
+  .block-subtitle { font-size: 11px; color: var(--gray); margin-top: 1px; }
+
+  .block-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+  .field-row.full { grid-template-columns: 1fr; }
+
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray);
+  }
+  .field label .req { color: var(--red); margin-left: 2px; }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'Ginto Normal', sans-serif;
+    font-size: 13px;
+    color: #1e1e2e;
+    background: var(--gray-light);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--blue);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(13,20,115,0.10);
+  }
+  .field input::placeholder,
+  .field textarea::placeholder { color: #9CA3AF; }
+  .field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
+  .field select { cursor: pointer; appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+  .field select:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* Radio toggle */
+  .radio-group { display: flex; gap: 10px; }
+  .radio-option { flex: 1; }
+  .radio-option input[type="radio"] { display: none; }
+  .radio-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 14px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--gray);
+    background: var(--gray-light);
+    user-select: none;
+  }
+  .radio-option.sim input:checked + label {
+    border-color: var(--green);
+    background: var(--green-bg);
+    color: var(--green);
+  }
+  .radio-option.nao input:checked + label {
+    border-color: var(--red);
+    background: var(--red-bg);
+    color: var(--red);
+  }
+  .radio-option label:hover { border-color: #9CA3AF; background: white; }
+
+  /* Hint */
+  .field-hint {
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.5;
+    margin-top: -4px;
+  }
+
+  /* Critério dinâmico */
+  .criterio-item {
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: var(--gray-light);
+  }
+  .criterio-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #D1D5DB;
+  }
+  .criterio-item-num {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .btn-remove-criterio {
+    background: none;
+    border: none;
+    color: var(--red);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    transition: color 0.2s;
+  }
+  .btn-remove-criterio:hover { color: #991b1b; }
+
+  /* Botões */
+  .btn-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .btn {
+    flex: 1;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Ginto Normal', sans-serif;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .btn-primary {
+    background: var(--blue);
+    color: white;
+  }
+  .btn-primary:hover { background: var(--blue-light); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+  .btn-secondary {
+    background: white;
+    color: var(--blue);
+    border: 2px solid var(--blue);
+  }
+  .btn-secondary:hover { background: rgba(13,20,115,0.05); }
+  .btn-add-criterio {
+    background: transparent;
+    color: var(--blue);
+    border: 2px dashed var(--blue);
+    padding: 10px 16px;
+    margin-top: 8px;
+  }
+  .btn-add-criterio:hover { background: rgba(13,20,115,0.05); }
+
+  /* Sucesso */
+  .success-card {
+    background: var(--green-bg);
+    border: 2px solid var(--green);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 60px;
+    display: none;
+  }
+  .success-card h2 { color: var(--green); font-size: 20px; margin-bottom: 12px; }
+  .success-card p { color: #166534; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
+  #success-meta { text-align: left; background: white; padding: 16px 20px; border-radius: 10px; margin-bottom: 16px; font-size: 12px; line-height: 1.8; color: #1e1e2e; }
+  .btn-new-contest { margin-top: 16px; }
+
+  /* Campo de erro */
+  .field.error input,
+  .field.error select,
+  .field.error textarea,
+  .field.error .radio-group { border-color: var(--red) !important; background: rgba(220,38,38,0.05) !important; }
+  .field-error-msg { font-size: 11px; color: var(--red); margin-top: 4px; font-weight: 600; }
+
+  /* Smartphone */
+  @media (max-width: 640px) {
+    .header-inner { padding: 12px 16px; }
+    .hero { padding: 32px 16px 28px; }
+    .hero h1 { font-size: 20px; }
+    .form-wrap { margin: 24px auto 40px; padding: 0 16px; }
+    .block-header { padding: 14px 18px 10px; }
+    .block-body { padding: 16px 18px; gap: 14px; }
+    .btn { font-size: 12px; padding: 10px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-pin">
+      <!-- Logo SVG inline ou tag img -->
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="13" fill="#41B6E6" stroke="#41B6E6" stroke-width="2"/>
+        <text x="14" y="18" text-anchor="middle" fill="#06091C" font-size="16" font-weight="900">T</text>
+      </svg>
+    </div>
+    <h3 style="color: white; font-size: 14px; font-weight: 700;">Contestação de Monitoria</h3>
+  </div>
+</header>
+
+<section class="hero">
+  <div style="max-width: 720px; margin: 0 auto;">
+    <span class="hero-badge">🔍 REANÁLISE</span>
+    <h1>Registre uma Contestação</h1>
+    <p>Preencha os campos abaixo para solicitar a reanálise de um critério de monitoria. Sua contestação será analisada e um parecer será emitido.</p>
+  </div>
+</section>
+
+<div class="form-wrap">
+
+  <!-- Formulário Principal -->
+  <form id="contestacao-form">
+
+    <!-- BLOCO 1: Identificação -->
+    <div class="block-card">
+      <div class="block-header">
+        <div class="block-num">1</div>
+        <div>
+          <div class="block-title">Identificação</div>
+          <div class="block-subtitle">Dados básicos da contestação</div>
+        </div>
+      </div>
+      <div class="block-body">
+        <div class="field-row">
+          <div class="field" id="field-chamado-id">
+            <label>ID do Chamado <span class="req">*</span></label>
+            <input type="text" id="chamado-id" placeholder="Ex: 12345">
+          </div>
+          <div class="field" id="field-analista">
+            <label>Analista Responsável <span class="req">*</span></label>
+            <select id="analista">
+              <option value="">Selecione o analista</option>
+              <!-- Opções carregadas dinamicamente -->
+            </select>
+          </div>
+        </div>
+        <div class="field-row full">
+          <div class="field" id="field-supervisor">
+            <label>Supervisor da Contestação <span class="req">*</span></label>
+            <input type="text" id="supervisor" placeholder="Digite seu nome completo">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOCO 2: Critérios -->
+    <div class="block-card">
+      <div class="block-header">
+        <div class="block-num">2</div>
+        <div>
+          <div class="block-title">Critérios Contestados</div>
+          <div class="block-subtitle">Adicione um ou mais critérios para reanálise</div>
+        </div>
+      </div>
+      <div class="block-body">
+        <div id="criterios-container"></div>
+        <button type="button" class="btn-add-criterio" onclick="addCriterio()">+ Adicionar Critério</button>
+      </div>
+    </div>
+
+    <!-- BLOCO 3: Justificativa -->
+    <div class="block-card">
+      <div class="block-header">
+        <div class="block-num">3</div>
+        <div>
+          <div class="block-title">Justificativa</div>
+          <div class="block-subtitle">Explique o motivo da contestação</div>
+        </div>
+      </div>
+      <div class="block-body">
+        <div class="field-row full">
+          <div class="field" id="field-justificativa">
+            <label>Justificativa Detalhada <span class="req">*</span></label>
+            <textarea id="justificativa" placeholder="Descreva com clareza por que a contestação é necessária..."></textarea>
+            <div class="field-hint">Mínimo 10 caracteres. Seja específico e detalhado.</div>
+          </div>
+        </div>
+        <div class="field-row full">
+          <div class="field">
+            <label>Evidências (Opcional)</label>
+            <textarea id="evidencia" placeholder="Anexe links, prints ou outras evidências que sustentem sua contestação..."></textarea>
+            <div class="field-hint">Inclua URLs, descrições de documentos, etc.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="btn-group">
+      <button type="submit" class="btn btn-primary" id="btn-submit">Registrar Reanálise</button>
+    </div>
+  </form>
+
+  <!-- Card de Sucesso -->
+  <div class="success-card" id="success-card">
+    <h2>✓ Reanálise Registrada com Sucesso!</h2>
+    <p>Sua contestação foi enviada para análise. Você receberá uma atualização em breve.</p>
+    <div id="success-meta"></div>
+    <button type="button" class="btn btn-primary btn-new-contest" onclick="novaCont()">Nova Contestação</button>
+  </div>
+
+</div>
+
+<script>
+// ─── CONSTANTE PARA INTEGRAÇÃO COM GOOGLE SHEETS ────────────────────────────
+// URL da planilha Google Sheets
+const SHEETS_CONFIG = {
+  spreadsheetId: '1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804',
+  sheetName: 'Reanálise/Devolução de qualidade',
+  spreadsheetUrl: 'https://docs.google.com/spreadsheets/d/1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804/edit?gid=724992443#gid=724992443'
+};
+
+// URL do Apps Script (configurar conforme necessário)
+const APPS_SCRIPT_URL = ''; // Será preenchida conforme configuração do Apps Script
+
+// ─── MAPEAMENTO DE ANALISTAS ────────────────────────────────────────────────
+// Dados carregados da planilha de Pessoas
+const analistaMap = {
+  'carlos.oliveira@turbi.com.br': { nome: 'Carlos Oliveira' },
+  'barbara.olimpio@turbi.com.br': { nome: 'Barbara Olimpio' },
+  'bruna.cornelio@turbi.com.br': { nome: 'Bruna Cornelio' },
+  'danielle.salve@turbi.com.br': { nome: 'Danielle Salve' },
+  'dayane.oliveira@turbi.com.br': { nome: 'Dayane Oliveira' },
+  'edinaldo.bento@turbi.com.br': { nome: 'Edinaldo Bento' },
+  'jessica.gil@turbi.com.br': { nome: 'Jessica Gil' },
+  'ketelyn.pereira@turbi.com.br': { nome: 'Ketelyn Pereira' },
+  'leonardo.arantes@turbi.com.br': { nome: 'Leonardo Arantes' },
+  'melissa.sousa@turbi.com.br': { nome: 'Melissa Sousa' },
+  'matheus.mendes@turbi.com.br': { nome: 'Matheus Mendes' },
+  'nubia.machado@turbi.com.br': { nome: 'Nubia Machado' },
+  'larissa.carvalho@turbi.com.br': { nome: 'Larissa Carvalho' },
+  'suellen.souza@turbi.com.br': { nome: 'Suellen Souza' },
+  'jario.carvalho@turbi.com.br': { nome: 'Jario Carvalho' },
+  'luana.capaccioli@turbi.com.br': { nome: 'Luana Capaccioli' },
+  'roberson.pereira@turbi.com.br': { nome: 'Roberson Pereira' },
+  'luanna.albertini@turbi.com.br': { nome: 'Luanna Albertini' },
+  'carolina.slepicka@turbi.com.br': { nome: 'Carolina Slepicka' },
+  'karina.lico@turbi.com.br': { nome: 'Karina Lico' },
+  'junior.almeida@turbi.com.br': { nome: 'Junior Almeida' },
+  'leticia.marques@turbi.com.br': { nome: 'Leticia Marques' },
+  'haylla.rodrigues@turbi.com.br': { nome: 'Haylla Rodrigues' },
+  'monique.santos@turbi.com.br': { nome: 'Monique Santos' },
+  'gabriela.oliveira@turbi.com.br': { nome: 'Gabriela Oliveira' },
+  'nancy.tavares@turbi.com.br': { nome: 'Nancy Tavares' },
+  'evandro.aparecido@turbi.com.br': { nome: 'Evandro Aparecido' },
+  'vitoria.santos@turbi.com.br': { nome: 'Vitoria Santos' },
+  'hugo.cruz@turbi.com.br': { nome: 'Hugo Cruz' },
+  'estelita.santos@turbi.com.br': { nome: 'Estelita Santos' },
+  'luccas.ramos@turbi.com.br': { nome: 'Luccas Ramos' },
+  'erica.conceicao@turbi.com.br': { nome: 'Erica Conceicao' },
+  'maria.isabel@turbi.com.br': { nome: 'Maria Isabel' },
+  'caio.aurelio@turbi.com.br': { nome: 'Caio Aurelio' },
+  'vitor.santos@turbi.com.br': { nome: 'Vitor Santos' },
+  'jose.carlos@turbi.com.br': { nome: 'Jose Carlos' },
+  'thiago.souza@turbi.com.br': { nome: 'Thiago Souza' },
+  'elisabete.oliva@turbi.com.br': { nome: 'Elisabete Oliva' },
+  'suelen.silva@turbi.com.br': { nome: 'Suelen Silva' },
+  'gabriel.carvalho@turbi.com.br': { nome: 'Gabriel Carvalho' },
+  'pamela.oliveira@turbi.com.br': { nome: 'Pamela Oliveira' },
+  'everton.oliveira@turbi.com.br': { nome: 'Everton Oliveira' },
+  'leticia.franca@turbi.com.br': { nome: 'Letícia Franca' },
+  'victor.souza@turbi.com.br': { nome: 'Victor Souza' },
+  'giulia.campos@turbi.com.br': { nome: 'Giulia Campos' },
+  'schuster.silva@turbi.com.br': { nome: 'Schuster da Silva' },
+  'monyse.rosa@turbi.com.br': { nome: 'Monyse Rosa' },
+  'erika.carvalho@turbi.com.br': { nome: 'Erika Carvalho' },
+  'veronica.novaes@turbi.com.br': { nome: 'Veronica Novaes' },
+  'aurora.souza@turbi.com.br': { nome: 'Aurora Souza' },
+  'carlos.conceicao@turbi.com.br': { nome: 'Carlos Conceição' },
+  'nathalia.montagneiro@turbi.com.br': { nome: 'Nathália Montagneiro' },
+  'rodrigo.rocha@turbi.com.br': { nome: 'Rodrigo Rocha' },
+  'thais.nunes@turbi.com.br': { nome: 'Thais Nunes' },
+  'vinicius.reis@turbi.com.br': { nome: 'Vinícius Reis' },
+  'janete.bassi@turbi.com.br': { nome: 'Janete Bassi' },
+  'lucas.steves@turbi.com.br': { nome: 'Lucas Steves' },
+  'fabricio.pimenta@turbi.com.br': { nome: 'Fabricio Pimenta' },
+  'joao.rialto@turbi.com.br': { nome: 'João Rialto' },
+  'lucas.giuseppe@turbi.com.br': { nome: 'Lucas Giuseppe' },
+  'gabriela.alves@turbi.com.br': { nome: 'Gabriela Alves' },
+  'ayanni.rodrigues@turbi.com.br': { nome: 'Ayanni Rodrigues' },
+  'nicole.soares@turbi.com.br': { nome: 'Nicole Soares' },
+};
+
+let criterioCounter = 0;
+
+// ─── CARREGAR DADOS DA PLANILHA ──────────────────────────────────────────────
+async function carregarDadosPlanilha() {
+  // TODO: Implementar carregamento de dados da planilha se necessário
+  populateAnalistaSelect();
+}
+
+function populateAnalistaSelect() {
+  const select = document.getElementById('analista');
+  Object.entries(analistaMap).forEach(([email, data]) => {
+    const opt = document.createElement('option');
+    opt.value = email;
+    opt.text = data.nome;
+    select.appendChild(opt);
+  });
+}
+
+// ─── CONSTRUIR ITEM DE CRITÉRIO ──────────────────────────────────────────────
+function buildCriterioItem(index) {
+  const opts = Object.entries(analistaMap)
+    .map(([email, data]) => `<option value="${email}">${data.nome}</option>`)
+    .join('');
+
+  const div = document.createElement('div');
+  div.className = 'criterio-item';
+  div.dataset.index = index;
+  div.innerHTML = `
+    <div class="criterio-item-header">
+      <span class="criterio-item-num">Critério ${index}</span>
+      <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
+    </div>
+    <div class="field-row full">
+      <div class="field" id="field-criterio-${index}">
+        <label>Critério Contestado <span class="req">*</span></label>
+        <select name="criterio-sel">
+          <option value="">Selecione um critério</option>
+          <option value="criatividade">Criatividade</option>
+          <option value="comunicacao">Comunicação</option>
+          <option value="tecnica">Técnica</option>
+          <option value="postura">Postura Profissional</option>
+          <option value="pontualidade">Pontualidade</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Avaliação Original <span class="req">*</span></label>
+        <div class="radio-group" id="field-avaliacao-original-${index}">
+          <div class="radio-option sim">
+            <input type="radio" name="avaliacao-original-${index}" id="orig-sim-${index}" value="SIM">
+            <label for="orig-sim-${index}">✅ SIM</label>
+          </div>
+          <div class="radio-option nao">
+            <input type="radio" name="avaliacao-original-${index}" id="orig-nao-${index}" value="NÃO">
+            <label for="orig-nao-${index}">❌ NÃO</label>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Avaliação Sugerida <span class="req">*</span></label>
+        <div class="radio-group" id="field-avaliacao-sugerida-${index}">
+          <div class="radio-option sim">
+            <input type="radio" name="avaliacao-sugerida-${index}" id="sug-sim-${index}" value="SIM">
+            <label for="sug-sim-${index}">✅ SIM</label>
+          </div>
+          <div class="radio-option nao">
+            <input type="radio" name="avaliacao-sugerida-${index}" id="sug-nao-${index}" value="NÃO">
+            <label for="sug-nao-${index}">❌ NÃO</label>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  return div;
+}
+
+function addCriterio() {
+  criterioCounter++;
+  const container = document.getElementById('criterios-container');
+  container.appendChild(buildCriterioItem(criterioCounter));
+  atualizarBotoesRemover();
+}
+
+function removeCriterio(btn) {
+  const item = btn.closest('.criterio-item');
+  item.remove();
+  renumerarCriterios();
+  atualizarBotoesRemover();
+}
+
+function renumerarCriterios() {
+  document.querySelectorAll('.criterio-item').forEach((item, i) => {
+    item.querySelector('.criterio-item-num').textContent = `Critério ${i + 1}`;
+  });
+}
+
+function atualizarBotoesRemover() {
+  const items = document.querySelectorAll('.criterio-item');
+  items.forEach(item => {
+    item.querySelector('.btn-remove-criterio').style.display =
+      items.length > 1 ? 'inline-block' : 'none';
+  });
+}
+
+// ─── VALIDAÇÃO ──────────────────────────────────────────────────────────────
+function showFieldError(wrap, msg) {
+  const prev = wrap?.querySelector('.field-error-msg');
+  if (prev) prev.remove();
+  wrap?.classList.add('error');
+  const el = document.createElement('div');
+  el.className = 'field-error-msg';
+  el.textContent = msg;
+  wrap?.appendChild(el);
+}
+
+function clearFieldError(wrap) {
+  wrap?.querySelector('.field-error-msg')?.remove();
+  wrap?.classList.remove('error');
+}
+
+function validate() {
+  let ok = true;
+
+  // Campos fixos
+  const requiredFields = [
+    { id: 'chamado-id',   fieldId: 'field-chamado-id' },
+    { id: 'analista',     fieldId: 'field-analista' },
+    { id: 'supervisor',   fieldId: 'field-supervisor' },
+    { id: 'justificativa',fieldId: 'field-justificativa' },
+  ];
+
+  requiredFields.forEach(f => {
+    const el   = document.getElementById(f.id);
+    const wrap = document.getElementById(f.fieldId);
+    clearFieldError(wrap);
+    if (!el?.value.trim()) { showFieldError(wrap, 'Campo obrigatório'); ok = false; }
+  });
+
+  // Valida cada critério
+  document.querySelectorAll('.criterio-item').forEach(item => {
+    const idx = item.dataset.index;
+    const sel  = item.querySelector('select[name="criterio-sel"]');
+    const wrapSel = item.querySelector(`#field-criterio-${idx}`);
+    clearFieldError(wrapSel);
+    if (!sel?.value) { showFieldError(wrapSel, 'Selecione o critério'); ok = false; }
+
+    ['avaliacao-original', 'avaliacao-sugerida'].forEach(name => {
+      const checked = item.querySelector(`input[name="${name}-${idx}"]:checked`);
+      const wrap = item.querySelector(`#field-${name}-${idx}`);
+      clearFieldError(wrap);
+      if (!checked) { showFieldError(wrap, 'Selecione uma opção'); ok = false; }
+    });
+  });
+
+  return ok;
+}
+
+// ─── FUNÇÃO PARA PREENCHER A PLANILHA GOOGLE SHEETS ──────────────────────────
+async function preencherPlanilhaGoogleSheets(payload) {
+  try {
+    // Monta a URL com os parâmetros para o Apps Script
+    // Cada Apps Script deve estar configurado para receber este payload
+    // e escrever os dados na aba específica
+    
+    console.log('Tentando preencher Google Sheets com dados:', payload);
+    console.log('Planilha:', SHEETS_CONFIG.spreadsheetId);
+    console.log('Aba:', SHEETS_CONFIG.sheetName);
+    
+    // Se houver um Apps Script URL, envia os dados
+    if (APPS_SCRIPT_URL) {
+      await fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        body:    JSON.stringify({
+          ...payload,
+          sheets_config: SHEETS_CONFIG
+        }),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+      console.log('✓ Dados enviados para Apps Script com sucesso');
+    } else {
+      console.warn('⚠️ APPS_SCRIPT_URL não configurada, mas os dados estariam em:', SHEETS_CONFIG.spreadsheetUrl);
+    }
+  } catch (err) {
+    console.error('Erro ao enviar para Google Sheets:', err);
+    throw err;
+  }
+}
+
+// ─── SUBMISSÃO ──────────────────────────────────────────────────────────────
+document.getElementById('contestacao-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  if (!validate()) {
+    const firstError = document.querySelector('.field.error input, .field.error select, .field.error textarea');
+    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  const analistaEmail = document.getElementById('analista').value;
+  const analistaNome  = analistaMap[analistaEmail]?.nome
+    || document.getElementById('analista').options[document.getElementById('analista').selectedIndex].text;
+
+  // Coleta todos os critérios
+  const criterios = [];
+  document.querySelectorAll('.criterio-item').forEach(item => {
+    const idx = item.dataset.index;
+    const sel = item.querySelector('select[name="criterio-sel"]');
+    criterios.push({
+      criterio:           sel.value,
+      criterio_label:     sel.options[sel.selectedIndex]?.text || '',
+      avaliacao_original: item.querySelector(`input[name="avaliacao-original-${idx}"]:checked`)?.value || '',
+      avaliacao_sugerida: item.querySelector(`input[name="avaliacao-sugerida-${idx}"]:checked`)?.value || ''
+    });
+  });
+
+  const payload = {
+    timestamp:     new Date().toISOString(),
+    chamado_id:    document.getElementById('chamado-id').value.trim(),
+    analista_email: analistaEmail,
+    analista_nome:  analistaNome,
+    supervisor:    document.getElementById('supervisor').value,
+    criterios,
+    justificativa: document.getElementById('justificativa').value.trim(),
+    evidencia:     document.getElementById('evidencia').value.trim() || null,
+    status:        'ABERTO'
+  };
+
+  // ── INTEGRAÇÃO GOOGLE SHEETS ────────────────────────────────────────────────
+  try {
+    // Chama a função que preenche a planilha
+    await preencherPlanilhaGoogleSheets(payload);
+    
+    // Se houver um Apps Script URL específico também
+    if (APPS_SCRIPT_URL) {
+      await fetch(APPS_SCRIPT_URL, {
+        method:  'POST',
+        body:    JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain' }
+      });
+    }
+  } catch (err) {
+    console.error('Erro ao enviar dados:', err);
+    btn.disabled = false;
+    btn.textContent = 'Registrar Reanálise';
+    mostrarErroEnvio('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
+    return;
+  }
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  document.getElementById('contestacao-form').style.display = 'none';
+  document.getElementById('success-card').style.display = 'block';
+  const criteriosLabel = payload.criterios.map(c => c.criterio_label).join(', ');
+  document.getElementById('success-meta').innerHTML =
+    `<strong>Chamado:</strong> ${payload.chamado_id}<br>` +
+    `<strong>Analista:</strong> ${payload.analista_nome}<br>` +
+    `<strong>Critério(s):</strong> ${criteriosLabel}<br>` +
+    `<strong>Registrado por:</strong> ${payload.supervisor}<br>` +
+    `<strong>Protocolo:</strong> CONT-${Date.now()}<br>` +
+    `<strong>Planilha:</strong> <a href="${SHEETS_CONFIG.spreadsheetUrl}" target="_blank" style="color:#16A34A;text-decoration:underline;">Acessar Reanálises</a>`;
+});
+
+// ─── MENSAGEM DE ERRO DE ENVIO ───────────────────────────────────────────────
+function mostrarErroEnvio(msg) {
+  let el = document.getElementById('send-error-msg');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'send-error-msg';
+    el.style.cssText = 'margin-top:12px;padding:12px 16px;background:#FEF2F2;color:#B91C1C;border-radius:8px;font-size:13px;border:1px solid #FECACA;';
+    document.getElementById('btn-submit').insertAdjacentElement('afterend', el);
+  }
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+
+// ─── NOVA CONTESTAÇÃO ───────────────────────────────────────────────────────
+function novaCont() {
+  document.getElementById('contestacao-form').reset();
+  document.getElementById('supervisor').classList.remove('auto-filled');
+  document.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
+  document.querySelectorAll('.field-error-msg').forEach(m => m.remove());
+  // Reinicia critérios
+  const container = document.getElementById('criterios-container');
+  container.innerHTML = '';
+  criterioCounter = 0;
+  addCriterio();
+  document.getElementById('contestacao-form').style.display = '';
+  document.getElementById('success-card').style.display = 'none';
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-submit').textContent = 'Registrar Reanálise';
+  const errMsg = document.getElementById('send-error-msg');
+  if (errMsg) errMsg.style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── INICIALIZA ──────────────────────────────────────────────────────────────
+addCriterio(); // cria o primeiro critério ao carregar
+carregarDadosPlanilha();
+</script>
+
+</body>
+</html>
