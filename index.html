@@ -496,7 +496,6 @@
 
 <script>
 // ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
-// ⚠️ COLE AQUI A URL DO APPS SCRIPT DEPLOYADO (obtenha no Apps Script > Deploy)
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8ZnS1WQCrDYBAFvQ6YgceQKulaQn9ob7f8vYRQ8AiZsL1uzV5ql-5h8l9ainjA0Lx8Q/exec';
 
 const SHEETS_CONFIG = {
@@ -506,7 +505,7 @@ const SHEETS_CONFIG = {
 };
 
 // ─── DADOS ──────────────────────────────────────────────────────────────────
-// Lista de analistas carregada da aba PESSOAS da planilha de controle
+// Lista de analistas da aba PESSOAS da planilha de controle
 const analistaMap = {
   "carlos.oliveira@turbi.com.br":       { nome: "Carlos Oliveira",       supervisor: "Barbara Toledo" },
   "barbara.olimpio@turbi.com.br":       { nome: "Barbara Olimpio",       supervisor: "Alexandre Checozzi" },
@@ -572,6 +571,7 @@ const analistaMap = {
   "ayanni.rodrigues@turbi.com.br":      { nome: "Ayanni Rodrigues",      supervisor: "Dayane Oliveira" },
   "nicole.soares@turbi.com.br":         { nome: "Nicole Soares",         supervisor: "Dayane Oliveira" }
 };
+
 const CRITERIOS_DISPONIVEIS = [
   { id: 'comunicacao_clara', label: 'Condução - Comunicação clara' },
   { id: 'respondeu_perguntas', label: 'Condução - Respondeu a todas as perguntas' },
@@ -583,40 +583,15 @@ const CRITERIOS_DISPONIVEIS = [
 
 let criterioCounter = 0;
 
-// ─── CARREGAMENTO DOS DADOS DA PLANILHA ──────────────────────────────────────
-async function carregarDadosPlanilha() {
-  try {
-    if (!APPS_SCRIPT_URL) {
-      console.warn('⚠️ APPS_SCRIPT_URL não configurada.');
-      return;
-    }
-
-    const response = await fetch(APPS_SCRIPT_URL, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    });
-
-    const data = await response.json();
-    
-    if (data.status === 'success') {
-      analistaMap = data.analistas || {};
-      preencherSelectAnalista();
-      console.log('✓ Dados de analistas carregados');
-    }
-  } catch (err) {
-    console.error('Erro ao buscar dados da planilha:', err);
-  }
-}
-
 function preencherSelectAnalista() {
   const select = document.getElementById('analista');
-  const emailsOrdenados = Object.keys(analistaMap).sort();
-  
+  const emailsOrdenados = Object.keys(analistaMap).sort((a, b) =>
+    analistaMap[a].nome.localeCompare(analistaMap[b].nome)
+  );
   emailsOrdenados.forEach(email => {
-    const analista = analistaMap[email];
     const option = document.createElement('option');
     option.value = email;
-    option.textContent = `${analista.nome}`;
+    option.textContent = analistaMap[email].nome;
     select.appendChild(option);
   });
 }
@@ -624,7 +599,6 @@ function preencherSelectAnalista() {
 function atualizarSupervisor() {
   const email = document.getElementById('analista').value;
   const supervisorInput = document.getElementById('supervisor');
-  
   if (email && analistaMap[email]) {
     supervisorInput.value = analistaMap[email].supervisor || '';
   }
@@ -635,13 +609,11 @@ function buildCriterioItem(index) {
   const div = document.createElement('div');
   div.className = 'criterio-item';
   div.dataset.index = index;
-  
   div.innerHTML = `
     <div class="criterio-item-header">
       <div class="criterio-item-num">Critério ${index}</div>
       <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
     </div>
-    
     <div class="field" id="field-criterio-${index}">
       <label>Selecione o Critério <span class="req">*</span></label>
       <select name="criterio-sel" required>
@@ -649,7 +621,6 @@ function buildCriterioItem(index) {
         ${CRITERIOS_DISPONIVEIS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
       </select>
     </div>
-    
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
       <div class="field" id="field-avaliacao-original-${index}">
         <label>Avaliação Original <span class="req">*</span></label>
@@ -664,7 +635,6 @@ function buildCriterioItem(index) {
           </div>
         </div>
       </div>
-      
       <div class="field" id="field-avaliacao-sugerida-${index}">
         <label>Avaliação Sugerida <span class="req">*</span></label>
         <div class="radio-group">
@@ -691,8 +661,7 @@ function addCriterio() {
 }
 
 function removeCriterio(btn) {
-  const item = btn.closest('.criterio-item');
-  item.remove();
+  btn.closest('.criterio-item').remove();
   renumerarCriterios();
   atualizarBotoesRemover();
 }
@@ -713,8 +682,7 @@ function atualizarBotoesRemover() {
 
 // ─── VALIDAÇÃO ──────────────────────────────────────────────────────────────
 function showFieldError(wrap, msg) {
-  const prev = wrap?.querySelector('.field-error-msg');
-  if (prev) prev.remove();
+  wrap?.querySelector('.field-error-msg')?.remove();
   wrap?.classList.add('error');
   const el = document.createElement('div');
   el.className = 'field-error-msg';
@@ -729,16 +697,13 @@ function clearFieldError(wrap) {
 
 function validate() {
   let ok = true;
-
-  const requiredFields = [
-    { id: 'chamado-id',   fieldId: 'field-chamado-id' },
-    { id: 'analista',     fieldId: 'field-analista' },
-    { id: 'supervisor',   fieldId: 'field-supervisor' },
-    { id: 'justificativa',fieldId: 'field-justificativa' },
-  ];
-
-  requiredFields.forEach(f => {
-    const el   = document.getElementById(f.id);
+  [
+    { id: 'chamado-id',    fieldId: 'field-chamado-id' },
+    { id: 'analista',      fieldId: 'field-analista' },
+    { id: 'supervisor',    fieldId: 'field-supervisor' },
+    { id: 'justificativa', fieldId: 'field-justificativa' },
+  ].forEach(f => {
+    const el = document.getElementById(f.id);
     const wrap = document.getElementById(f.fieldId);
     clearFieldError(wrap);
     if (!el?.value.trim()) { showFieldError(wrap, 'Campo obrigatório'); ok = false; }
@@ -746,11 +711,10 @@ function validate() {
 
   document.querySelectorAll('.criterio-item').forEach(item => {
     const idx = item.dataset.index;
-    const sel  = item.querySelector('select[name="criterio-sel"]');
+    const sel = item.querySelector('select[name="criterio-sel"]');
     const wrapSel = item.querySelector(`#field-criterio-${idx}`);
     clearFieldError(wrapSel);
     if (!sel?.value) { showFieldError(wrapSel, 'Selecione o critério'); ok = false; }
-
     ['avaliacao-original', 'avaliacao-sugerida'].forEach(name => {
       const checked = item.querySelector(`input[name="${name}-${idx}"]:checked`);
       const wrap = item.querySelector(`#field-${name}-${idx}`);
@@ -777,7 +741,7 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
   btn.textContent = 'Enviando...';
 
   const analistaEmail = document.getElementById('analista').value;
-  const analistaNome  = analistaMap[analistaEmail]?.nome || document.getElementById('analista').options[document.getElementById('analista').selectedIndex].text;
+  const analistaNome = analistaMap[analistaEmail]?.nome || '';
 
   const criterios = [];
   document.querySelectorAll('.criterio-item').forEach(item => {
@@ -792,32 +756,27 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
   });
 
   const payload = {
-    timestamp:     new Date().toISOString(),
-    chamado_id:    document.getElementById('chamado-id').value.trim(),
+    timestamp:      new Date().toISOString(),
+    chamado_id:     document.getElementById('chamado-id').value.trim(),
     analista_email: analistaEmail,
     analista_nome:  analistaNome,
-    supervisor:    document.getElementById('supervisor').value,
+    supervisor:     document.getElementById('supervisor').value,
     criterios,
-    justificativa: document.getElementById('justificativa').value.trim(),
-    evidencia:     document.getElementById('evidencia').value.trim() || null,
-    status:        'ABERTO',
-    sheets_config: SHEETS_CONFIG
+    justificativa:  document.getElementById('justificativa').value.trim(),
+    evidencia:      document.getElementById('evidencia').value.trim() || null,
+    status:         'ABERTO',
+    sheets_config:  SHEETS_CONFIG
   };
 
   try {
-    if (APPS_SCRIPT_URL) {
-      const response = await fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        body:    JSON.stringify(payload),
-        headers: { 'Content-Type': 'text/plain' }
-      });
-
-      const result = await response.json();
-
-      if (result.status !== 'success') {
-        throw new Error(result.message || 'Erro ao salvar dados');
-      }
-    }
+    // mode: 'no-cors' é necessário quando o HTML é aberto como arquivo local (file://)
+    // O fetch envia os dados normalmente; a resposta opaca não pode ser lida, mas o envio ocorre.
+    await fetch(APPS_SCRIPT_URL, {
+      method:  'POST',
+      body:    JSON.stringify(payload),
+      headers: { 'Content-Type': 'text/plain' },
+      mode:    'no-cors'
+    });
   } catch (err) {
     console.error('Erro ao enviar dados:', err);
     btn.disabled = false;
@@ -855,8 +814,7 @@ function novaCont() {
   document.getElementById('supervisor').value = '';
   document.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
   document.querySelectorAll('.field-error-msg').forEach(m => m.remove());
-  const container = document.getElementById('criterios-container');
-  container.innerHTML = '';
+  document.getElementById('criterios-container').innerHTML = '';
   criterioCounter = 0;
   addCriterio();
   document.getElementById('contestacao-form').style.display = '';
