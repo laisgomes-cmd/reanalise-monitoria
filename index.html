@@ -4,11 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contestação de Monitoria — Turbi</title>
-<!--
-  Ginto Normal — fonte comercial ABC Dinamo.
-  Substitua os caminhos abaixo pelos arquivos .woff2 reais ou pela URL do CDN da Turbi.
-  Pesos utilizados: Bold (700) e Black (900).
--->
 <style>
   @font-face {
     font-family: 'Ginto Normal';
@@ -38,8 +33,7 @@
     font-style: normal;
     font-display: swap;
   }
-</style>
-<style>
+
   :root {
     --blue: #0D1473;
     --blue-light: #1620A8;
@@ -194,7 +188,6 @@
   }
   .field select:disabled { opacity: 0.5; cursor: not-allowed; }
 
-  /* Radio toggle */
   .radio-group { display: flex; gap: 10px; }
   .radio-option { flex: 1; }
   .radio-option input[type="radio"] { display: none; }
@@ -228,7 +221,6 @@
   }
   .radio-option label:hover { border-color: #9CA3AF; background: white; }
 
-  /* Hint */
   .field-hint {
     font-size: 11px;
     color: var(--gray);
@@ -236,114 +228,153 @@
     margin-top: -4px;
   }
 
-  /* Critério dinâmico */
   .criterio-item {
     border: 1.5px solid var(--border);
     border-radius: 10px;
     padding: 14px 16px;
     background: var(--gray-light);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
   .criterio-item-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #D1D5DB;
+    gap: 10px;
   }
   .criterio-item-num {
     font-size: 12px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--blue);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
   .btn-remove-criterio {
-    background: none;
-    border: none;
-    color: var(--red);
-    cursor: pointer;
-    font-size: 12px;
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 11px;
     font-weight: 700;
-    transition: color 0.2s;
-  }
-  .btn-remove-criterio:hover { color: #991b1b; }
-
-  /* Botões */
-  .btn-group {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .btn {
-    flex: 1;
-    padding: 12px 24px;
+    color: var(--red);
+    background: transparent;
     border: none;
-    border-radius: 10px;
-    font-family: 'Ginto Normal', sans-serif;
-    font-size: 13px;
-    font-weight: 800;
     cursor: pointer;
-    transition: all 0.2s;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    display: flex;
+    transition: opacity 0.2s;
+  }
+  .btn-remove-criterio:hover { opacity: 0.7; }
+
+  .criterio-item select {
+    margin-bottom: 4px;
+  }
+
+  .btn {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Ginto Normal', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
+
   .btn-primary {
     background: var(--blue);
     color: white;
   }
-  .btn-primary:hover { background: var(--blue-light); }
+  .btn-primary:hover { background: #0A0F5F; }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+
   .btn-secondary {
-    background: white;
-    color: var(--blue);
-    border: 2px solid var(--blue);
-  }
-  .btn-secondary:hover { background: rgba(13,20,115,0.05); }
-  .btn-add-criterio {
     background: transparent;
     color: var(--blue);
-    border: 2px dashed var(--blue);
+    border: 1.5px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--blue); }
+
+  .btn-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
     padding: 10px 16px;
+    background: transparent;
+    color: var(--blue);
+    border: 1.5px dashed var(--border);
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
     margin-top: 8px;
   }
-  .btn-add-criterio:hover { background: rgba(13,20,115,0.05); }
+  .btn-add:hover { border-color: var(--blue); background: rgba(13,20,115,0.05); }
 
-  /* Sucesso */
+  .field.error {
+    border-radius: 10px;
+    padding: 2px;
+  }
+  .field-error-msg {
+    font-size: 11px;
+    color: var(--red);
+    margin-top: 2px;
+  }
+
   .success-card {
-    background: var(--green-bg);
-    border: 2px solid var(--green);
+    display: none;
+    background: white;
     border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(13,20,115,0.08);
+    overflow: hidden;
     padding: 32px 24px;
     text-align: center;
-    margin-bottom: 60px;
-    display: none;
+    max-width: 720px;
+    margin: 32px auto;
   }
-  .success-card h2 { color: var(--green); font-size: 20px; margin-bottom: 12px; }
-  .success-card p { color: #166534; font-size: 13px; line-height: 1.6; margin-bottom: 20px; }
-  #success-meta { text-align: left; background: white; padding: 16px 20px; border-radius: 10px; margin-bottom: 16px; font-size: 12px; line-height: 1.8; color: #1e1e2e; }
-  .btn-new-contest { margin-top: 16px; }
+  .success-card.show { display: block; }
+  .success-card-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  .success-card h2 {
+    font-size: 18px;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .success-card p {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  #success-meta {
+    text-align: left;
+    background: var(--gray-light);
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #1e1e2e;
+  }
+  #success-meta strong { color: var(--blue); }
+  .success-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+  }
 
-  /* Campo de erro */
-  .field.error input,
-  .field.error select,
-  .field.error textarea,
-  .field.error .radio-group { border-color: var(--red) !important; background: rgba(220,38,38,0.05) !important; }
-  .field-error-msg { font-size: 11px; color: var(--red); margin-top: 4px; font-weight: 600; }
+  .loading { opacity: 0.6; pointer-events: none; }
 
-  /* Smartphone */
   @media (max-width: 640px) {
-    .header-inner { padding: 12px 16px; }
-    .hero { padding: 32px 16px 28px; }
     .hero h1 { font-size: 20px; }
+    .hero p { font-size: 12px; }
     .form-wrap { margin: 24px auto 40px; padding: 0 16px; }
-    .block-header { padding: 14px 18px 10px; }
-    .block-body { padding: 16px 18px; gap: 14px; }
-    .btn { font-size: 12px; padding: 10px 16px; }
   }
 </style>
 </head>
@@ -352,248 +383,277 @@
 <header>
   <div class="header-inner">
     <div class="logo-pin">
-      <!-- Logo SVG inline ou tag img -->
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="14" r="13" fill="#41B6E6" stroke="#41B6E6" stroke-width="2"/>
-        <text x="14" y="18" text-anchor="middle" fill="#06091C" font-size="16" font-weight="900">T</text>
-      </svg>
+      <img src="logo.svg" alt="Turbi">
     </div>
-    <h3 style="color: white; font-size: 14px; font-weight: 700;">Contestação de Monitoria</h3>
+    <span style="color:#41B6E6;font-weight:700;font-size:11px;">TURBI</span>
   </div>
 </header>
 
 <section class="hero">
-  <div style="max-width: 720px; margin: 0 auto;">
-    <span class="hero-badge">🔍 REANÁLISE</span>
-    <h1>Registre uma Contestação</h1>
-    <p>Preencha os campos abaixo para solicitar a reanálise de um critério de monitoria. Sua contestação será analisada e um parecer será emitido.</p>
-  </div>
+  <div class="hero-badge">📋 Reanálise de Qualidade</div>
+  <h1>Contestação de Monitoria</h1>
+  <p>Registre sua contestação de reanálise de qualidade de forma segura e rastreável. Todos os dados são salvos automaticamente na planilha de controle.</p>
 </section>
 
-<div class="form-wrap">
+<form id="contestacao-form" class="form-wrap">
 
-  <!-- Formulário Principal -->
-  <form id="contestacao-form">
-
-    <!-- BLOCO 1: Identificação -->
-    <div class="block-card">
-      <div class="block-header">
-        <div class="block-num">1</div>
-        <div>
-          <div class="block-title">Identificação</div>
-          <div class="block-subtitle">Dados básicos da contestação</div>
-        </div>
+  <!-- BLOCO 1: DADOS DO CHAMADO -->
+  <div class="block-card active">
+    <div class="block-header">
+      <div class="block-num">1</div>
+      <div>
+        <div class="block-title">Identificação do Chamado</div>
+        <div class="block-subtitle">Informações básicas da reanálise</div>
       </div>
-      <div class="block-body">
-        <div class="field-row">
-          <div class="field" id="field-chamado-id">
-            <label>ID do Chamado <span class="req">*</span></label>
-            <input type="text" id="chamado-id" placeholder="Ex: 12345">
-          </div>
-          <div class="field" id="field-analista">
-            <label>Analista Responsável <span class="req">*</span></label>
-            <select id="analista">
-              <option value="">Selecione o analista</option>
-              <!-- Opções carregadas dinamicamente -->
-            </select>
-          </div>
-        </div>
-        <div class="field-row full">
-          <div class="field" id="field-supervisor">
-            <label>Supervisor da Contestação <span class="req">*</span></label>
-            <input type="text" id="supervisor" placeholder="Digite seu nome completo">
-          </div>
+    </div>
+    <div class="block-body">
+      <div class="field-row full">
+        <div class="field" id="field-chamado-id">
+          <label>ID do Chamado <span class="req">*</span></label>
+          <input type="text" id="chamado-id" placeholder="ex: CHAT-123456" required>
         </div>
       </div>
     </div>
-
-    <!-- BLOCO 2: Critérios -->
-    <div class="block-card">
-      <div class="block-header">
-        <div class="block-num">2</div>
-        <div>
-          <div class="block-title">Critérios Contestados</div>
-          <div class="block-subtitle">Adicione um ou mais critérios para reanálise</div>
-        </div>
-      </div>
-      <div class="block-body">
-        <div id="criterios-container"></div>
-        <button type="button" class="btn-add-criterio" onclick="addCriterio()">+ Adicionar Critério</button>
-      </div>
-    </div>
-
-    <!-- BLOCO 3: Justificativa -->
-    <div class="block-card">
-      <div class="block-header">
-        <div class="block-num">3</div>
-        <div>
-          <div class="block-title">Justificativa</div>
-          <div class="block-subtitle">Explique o motivo da contestação</div>
-        </div>
-      </div>
-      <div class="block-body">
-        <div class="field-row full">
-          <div class="field" id="field-justificativa">
-            <label>Justificativa Detalhada <span class="req">*</span></label>
-            <textarea id="justificativa" placeholder="Descreva com clareza por que a contestação é necessária..."></textarea>
-            <div class="field-hint">Mínimo 10 caracteres. Seja específico e detalhado.</div>
-          </div>
-        </div>
-        <div class="field-row full">
-          <div class="field">
-            <label>Evidências (Opcional)</label>
-            <textarea id="evidencia" placeholder="Anexe links, prints ou outras evidências que sustentem sua contestação..."></textarea>
-            <div class="field-hint">Inclua URLs, descrições de documentos, etc.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Botões -->
-    <div class="btn-group">
-      <button type="submit" class="btn btn-primary" id="btn-submit">Registrar Reanálise</button>
-    </div>
-  </form>
-
-  <!-- Card de Sucesso -->
-  <div class="success-card" id="success-card">
-    <h2>✓ Reanálise Registrada com Sucesso!</h2>
-    <p>Sua contestação foi enviada para análise. Você receberá uma atualização em breve.</p>
-    <div id="success-meta"></div>
-    <button type="button" class="btn btn-primary btn-new-contest" onclick="novaCont()">Nova Contestação</button>
   </div>
 
+  <!-- BLOCO 2: RESPONSÁVEIS -->
+  <div class="block-card">
+    <div class="block-header">
+      <div class="block-num">2</div>
+      <div>
+        <div class="block-title">Responsáveis</div>
+        <div class="block-subtitle">Analista e supervisor da contestação</div>
+      </div>
+    </div>
+    <div class="block-body">
+      <div class="field" id="field-analista">
+        <label>Analista Responsável <span class="req">*</span></label>
+        <select id="analista" required onchange="atualizarSupervisor()">
+          <option value="">— Selecione um analista —</option>
+        </select>
+      </div>
+      <div class="field" id="field-supervisor">
+        <label>Supervisor da Contestação <span class="req">*</span></label>
+        <input type="text" id="supervisor" placeholder="Será preenchido automaticamente" readonly>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCO 3: CRITÉRIOS CONTESTADOS -->
+  <div class="block-card">
+    <div class="block-header">
+      <div class="block-num">3</div>
+      <div>
+        <div class="block-title">Critérios Contestados</div>
+        <div class="block-subtitle">Selecione os critérios de desacordo</div>
+      </div>
+    </div>
+    <div class="block-body">
+      <div id="criterios-container"></div>
+      <button type="button" class="btn-add" onclick="addCriterio()">+ Adicionar Critério</button>
+    </div>
+  </div>
+
+  <!-- BLOCO 4: JUSTIFICATIVA E EVIDÊNCIAS -->
+  <div class="block-card">
+    <div class="block-header">
+      <div class="block-num">4</div>
+      <div>
+        <div class="block-title">Justificativa e Evidências</div>
+        <div class="block-subtitle">Explique sua posição com detalhes</div>
+      </div>
+    </div>
+    <div class="block-body">
+      <div class="field field-row full" id="field-justificativa">
+        <label>Justificativa Detalhada <span class="req">*</span></label>
+        <textarea id="justificativa" placeholder="Descreva por que discorda da avaliação original. Seja específico e cite evidências." required></textarea>
+      </div>
+      <div class="field field-row full">
+        <label>Link de Evidências (opcional)</label>
+        <input type="url" id="evidencia" placeholder="https://exemplo.com/evidencia">
+        <div class="field-hint">Pode ser um link para gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTÕES -->
+  <div style="display: flex; gap: 12px; margin-top: 12px;">
+    <button type="submit" id="btn-submit" class="btn btn-primary">Registrar Reanálise</button>
+  </div>
+
+</form>
+
+<!-- CARD DE SUCESSO -->
+<div id="success-card" class="success-card">
+  <div class="success-card-icon">✅</div>
+  <h2>Reanálise Registrada com Sucesso!</h2>
+  <p>Sua contestação foi registrada e está sendo processada. Um supervisor entrarará em contato em breve.</p>
+  <div id="success-meta"></div>
+  <div class="success-actions">
+    <button type="button" class="btn btn-primary" onclick="novaCont()">Nova Reanálise</button>
+  </div>
 </div>
 
 <script>
-// ─── CONSTANTE PARA INTEGRAÇÃO COM GOOGLE SHEETS ────────────────────────────
-// URL da planilha Google Sheets
+// ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
+// ⚠️ COLE AQUI A URL DO APPS SCRIPT DEPLOYADO (obtenha no Apps Script > Deploy)
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Bt81PlXel09TKvAZfCJjH1pV0JXvVpspkm05x8CIkif9WDT459v698Baz1Da9NSa/usercontent';
+
 const SHEETS_CONFIG = {
   spreadsheetId: '1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804',
   sheetName: 'Reanálise/Devolução de qualidade',
-  spreadsheetUrl: 'https://docs.google.com/spreadsheets/d/1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804/edit?gid=724992443#gid=724992443'
+  spreadsheetUrl: 'https://docs.google.com/spreadsheets/d/1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804/'
 };
 
-// URL do Apps Script (configurar conforme necessário)
-const APPS_SCRIPT_URL = ''; // Será preenchida conforme configuração do Apps Script
-
-// ─── MAPEAMENTO DE ANALISTAS ────────────────────────────────────────────────
-// Dados carregados da planilha de Pessoas
+// ─── DADOS ──────────────────────────────────────────────────────────────────
+// Lista de analistas carregada da aba PESSOAS da planilha de controle
 const analistaMap = {
-  'carlos.oliveira@turbi.com.br': { nome: 'Carlos Oliveira' },
-  'barbara.olimpio@turbi.com.br': { nome: 'Barbara Olimpio' },
-  'bruna.cornelio@turbi.com.br': { nome: 'Bruna Cornelio' },
-  'danielle.salve@turbi.com.br': { nome: 'Danielle Salve' },
-  'dayane.oliveira@turbi.com.br': { nome: 'Dayane Oliveira' },
-  'edinaldo.bento@turbi.com.br': { nome: 'Edinaldo Bento' },
-  'jessica.gil@turbi.com.br': { nome: 'Jessica Gil' },
-  'ketelyn.pereira@turbi.com.br': { nome: 'Ketelyn Pereira' },
-  'leonardo.arantes@turbi.com.br': { nome: 'Leonardo Arantes' },
-  'melissa.sousa@turbi.com.br': { nome: 'Melissa Sousa' },
-  'matheus.mendes@turbi.com.br': { nome: 'Matheus Mendes' },
-  'nubia.machado@turbi.com.br': { nome: 'Nubia Machado' },
-  'larissa.carvalho@turbi.com.br': { nome: 'Larissa Carvalho' },
-  'suellen.souza@turbi.com.br': { nome: 'Suellen Souza' },
-  'jario.carvalho@turbi.com.br': { nome: 'Jario Carvalho' },
-  'luana.capaccioli@turbi.com.br': { nome: 'Luana Capaccioli' },
-  'roberson.pereira@turbi.com.br': { nome: 'Roberson Pereira' },
-  'luanna.albertini@turbi.com.br': { nome: 'Luanna Albertini' },
-  'carolina.slepicka@turbi.com.br': { nome: 'Carolina Slepicka' },
-  'karina.lico@turbi.com.br': { nome: 'Karina Lico' },
-  'junior.almeida@turbi.com.br': { nome: 'Junior Almeida' },
-  'leticia.marques@turbi.com.br': { nome: 'Leticia Marques' },
-  'haylla.rodrigues@turbi.com.br': { nome: 'Haylla Rodrigues' },
-  'monique.santos@turbi.com.br': { nome: 'Monique Santos' },
-  'gabriela.oliveira@turbi.com.br': { nome: 'Gabriela Oliveira' },
-  'nancy.tavares@turbi.com.br': { nome: 'Nancy Tavares' },
-  'evandro.aparecido@turbi.com.br': { nome: 'Evandro Aparecido' },
-  'vitoria.santos@turbi.com.br': { nome: 'Vitoria Santos' },
-  'hugo.cruz@turbi.com.br': { nome: 'Hugo Cruz' },
-  'estelita.santos@turbi.com.br': { nome: 'Estelita Santos' },
-  'luccas.ramos@turbi.com.br': { nome: 'Luccas Ramos' },
-  'erica.conceicao@turbi.com.br': { nome: 'Erica Conceicao' },
-  'maria.isabel@turbi.com.br': { nome: 'Maria Isabel' },
-  'caio.aurelio@turbi.com.br': { nome: 'Caio Aurelio' },
-  'vitor.santos@turbi.com.br': { nome: 'Vitor Santos' },
-  'jose.carlos@turbi.com.br': { nome: 'Jose Carlos' },
-  'thiago.souza@turbi.com.br': { nome: 'Thiago Souza' },
-  'elisabete.oliva@turbi.com.br': { nome: 'Elisabete Oliva' },
-  'suelen.silva@turbi.com.br': { nome: 'Suelen Silva' },
-  'gabriel.carvalho@turbi.com.br': { nome: 'Gabriel Carvalho' },
-  'pamela.oliveira@turbi.com.br': { nome: 'Pamela Oliveira' },
-  'everton.oliveira@turbi.com.br': { nome: 'Everton Oliveira' },
-  'leticia.franca@turbi.com.br': { nome: 'Letícia Franca' },
-  'victor.souza@turbi.com.br': { nome: 'Victor Souza' },
-  'giulia.campos@turbi.com.br': { nome: 'Giulia Campos' },
-  'schuster.silva@turbi.com.br': { nome: 'Schuster da Silva' },
-  'monyse.rosa@turbi.com.br': { nome: 'Monyse Rosa' },
-  'erika.carvalho@turbi.com.br': { nome: 'Erika Carvalho' },
-  'veronica.novaes@turbi.com.br': { nome: 'Veronica Novaes' },
-  'aurora.souza@turbi.com.br': { nome: 'Aurora Souza' },
-  'carlos.conceicao@turbi.com.br': { nome: 'Carlos Conceição' },
-  'nathalia.montagneiro@turbi.com.br': { nome: 'Nathália Montagneiro' },
-  'rodrigo.rocha@turbi.com.br': { nome: 'Rodrigo Rocha' },
-  'thais.nunes@turbi.com.br': { nome: 'Thais Nunes' },
-  'vinicius.reis@turbi.com.br': { nome: 'Vinícius Reis' },
-  'janete.bassi@turbi.com.br': { nome: 'Janete Bassi' },
-  'lucas.steves@turbi.com.br': { nome: 'Lucas Steves' },
-  'fabricio.pimenta@turbi.com.br': { nome: 'Fabricio Pimenta' },
-  'joao.rialto@turbi.com.br': { nome: 'João Rialto' },
-  'lucas.giuseppe@turbi.com.br': { nome: 'Lucas Giuseppe' },
-  'gabriela.alves@turbi.com.br': { nome: 'Gabriela Alves' },
-  'ayanni.rodrigues@turbi.com.br': { nome: 'Ayanni Rodrigues' },
-  'nicole.soares@turbi.com.br': { nome: 'Nicole Soares' },
+  "carlos.oliveira@turbi.com.br":       { nome: "Carlos Oliveira",       supervisor: "Barbara Toledo" },
+  "barbara.olimpio@turbi.com.br":       { nome: "Barbara Olimpio",       supervisor: "Alexandre Checozzi" },
+  "bruna.cornelio@turbi.com.br":        { nome: "Bruna Cornelio",        supervisor: "Deborah Carvalho" },
+  "danielle.salve@turbi.com.br":        { nome: "Danielle Salve",        supervisor: "Alessandra Gregatti" },
+  "dayane.oliveira@turbi.com.br":       { nome: "Dayane Oliveira",       supervisor: "" },
+  "edinaldo.bento@turbi.com.br":        { nome: "Edinaldo Bento",        supervisor: "Dayane Oliveira" },
+  "jessica.gil@turbi.com.br":           { nome: "Jessica Gil",           supervisor: "Deborah Carvalho" },
+  "ketelyn.pereira@turbi.com.br":       { nome: "Ketelyn Pereira",       supervisor: "Deborah Carvalho" },
+  "leonardo.arantes@turbi.com.br":      { nome: "Leonardo Arantes",      supervisor: "Alexandre Checozzi" },
+  "melissa.sousa@turbi.com.br":         { nome: "Melissa Sousa",         supervisor: "Deborah Carvalho" },
+  "matheus.mendes@turbi.com.br":        { nome: "Matheus Mendes",        supervisor: "Dayane Oliveira" },
+  "nubia.machado@turbi.com.br":         { nome: "Nubia Machado",         supervisor: "Alessandra Gregatti" },
+  "larissa.carvalho@turbi.com.br":      { nome: "Larissa Carvalho",      supervisor: "Barbara Toledo" },
+  "suellen.souza@turbi.com.br":         { nome: "Suellen Souza",         supervisor: "Deborah Carvalho" },
+  "jario.carvalho@turbi.com.br":        { nome: "Jario Carvalho",        supervisor: "Dayane Oliveira" },
+  "luana.capaccioli@turbi.com.br":      { nome: "Luana Capaccioli",      supervisor: "Dayane Oliveira" },
+  "roberson.pereira@turbi.com.br":      { nome: "Roberson Pereira",      supervisor: "Barbara Toledo" },
+  "luanna.albertini@turbi.com.br":      { nome: "Luanna Albertini",      supervisor: "Dayane Oliveira" },
+  "carolina.slepicka@turbi.com.br":     { nome: "Carolina Slepicka",     supervisor: "Deborah Carvalho" },
+  "karina.lico@turbi.com.br":           { nome: "Karina Lico",           supervisor: "Dayane Oliveira" },
+  "junior.almeida@turbi.com.br":        { nome: "Junior Almeida",        supervisor: "Dayane Oliveira" },
+  "leticia.marques@turbi.com.br":       { nome: "Leticia Marques",       supervisor: "Barbara Toledo" },
+  "haylla.rodrigues@turbi.com.br":      { nome: "Haylla Rodrigues",      supervisor: "Dayane Oliveira" },
+  "monique.santos@turbi.com.br":        { nome: "Monique Santos",        supervisor: "Dayane Oliveira" },
+  "gabriela.oliveira@turbi.com.br":     { nome: "Gabriela Oliveira",     supervisor: "Dayane Oliveira" },
+  "nancy.tavares@turbi.com.br":         { nome: "Nancy Camara",          supervisor: "Deborah Carvalho" },
+  "evandro.aparecido@turbi.com.br":     { nome: "Evandro Aparecido",     supervisor: "Dayane Oliveira" },
+  "vitoria.santos@turbi.com.br":        { nome: "Vitoria Santos",        supervisor: "Barbara Toledo" },
+  "hugo.cruz@turbi.com.br":             { nome: "Hugo Cruz",             supervisor: "Barbara Toledo" },
+  "estelita.santos@turbi.com.br":       { nome: "Estelita Santos",       supervisor: "Dayane Oliveira" },
+  "luccas.ramos@turbi.com.br":          { nome: "Luccas Ramos",          supervisor: "Dayane Oliveira" },
+  "erica.conceicao@turbi.com.br":       { nome: "Erica Conceicao",       supervisor: "Barbara Toledo" },
+  "maria.isabel@turbi.com.br":          { nome: "Maria Isabel",          supervisor: "Barbara Toledo" },
+  "caio.aurelio@turbi.com.br":          { nome: "Caio Aurelio",          supervisor: "Lucineia Bianchi" },
+  "vitor.santos@turbi.com.br":          { nome: "Vitor Santos",          supervisor: "Dayane Oliveira" },
+  "jose.carlos@turbi.com.br":           { nome: "Jose Carlos",           supervisor: "Dayane Oliveira" },
+  "thiago.souza@turbi.com.br":          { nome: "Thiago Souza",          supervisor: "Lucineia Bianchi" },
+  "elisabete.oliva@turbi.com.br":       { nome: "Elisabete Oliva",       supervisor: "Lucineia Bianchi" },
+  "suelen.silva@turbi.com.br":          { nome: "Suelen Silva",          supervisor: "Dayane Oliveira" },
+  "gabriel.carvalho@turbi.com.br":      { nome: "Gabriel Carvalho",      supervisor: "Dayane Oliveira" },
+  "pamela.oliveira@turbi.com.br":       { nome: "Pamela Oliveira",       supervisor: "Lucineia Bianchi" },
+  "everton.oliveira@turbi.com.br":      { nome: "Everton Oliveira",      supervisor: "Lucineia Bianchi" },
+  "leticia.franca@turbi.com.br":        { nome: "Letícia Franca",        supervisor: "Lucineia Bianchi" },
+  "victor.souza@turbi.com.br":          { nome: "Victor Souza",          supervisor: "Dayane Oliveira" },
+  "giulia.campos@turbi.com.br":         { nome: "Giulia Campos",         supervisor: "Dayane Oliveira" },
+  "schuster.silva@turbi.com.br":        { nome: "Schuster da Silva",     supervisor: "Alessandra Gregatti" },
+  "monyse.rosa@turbi.com.br":           { nome: "Monyse Rosa",           supervisor: "Lucineia Bianchi" },
+  "erika.carvalho@turbi.com.br":        { nome: "Erika Carvalho",        supervisor: "Lucineia Bianchi" },
+  "veronica.novaes@turbi.com.br":       { nome: "Veronica Novaes",       supervisor: "Dayane Oliveira" },
+  "aurora.souza@turbi.com.br":          { nome: "Aurora Souza",          supervisor: "Dayane Oliveira" },
+  "carlos.conceicao@turbi.com.br":      { nome: "Carlos Conceição",      supervisor: "Dayane Oliveira" },
+  "nathalia.montagneiro@turbi.com.br":  { nome: "Nathália Montagneiro",  supervisor: "Lucineia Bianchi" },
+  "rodrigo.rocha@turbi.com.br":         { nome: "Rodrigo Rocha",         supervisor: "Lucineia Bianchi" },
+  "thais.nunes@turbi.com.br":           { nome: "Thais Nunes",           supervisor: "Dayane Oliveira" },
+  "vinicius.reis@turbi.com.br":         { nome: "Vinícius Reis",         supervisor: "Dayane Oliveira" },
+  "janete.bassi@turbi.com.br":          { nome: "Janete Bassi",          supervisor: "Dayane Oliveira" },
+  "lucas.steves@turbi.com.br":          { nome: "Lucas Steves",          supervisor: "Dayane Oliveira" },
+  "fabricio.pimenta@turbi.com.br":      { nome: "Fabricio Pimenta",      supervisor: "Lucineia Bianchi" },
+  "joao.rialto@turbi.com.br":           { nome: "João Rialto",           supervisor: "Lucineia Bianchi" },
+  "lucas.giuseppe@turbi.com.br":        { nome: "Lucas Giuseppe",        supervisor: "Dayane Oliveira" },
+  "gabriela.alves@turbi.com.br":        { nome: "Gabriela Alves",        supervisor: "Dayane Oliveira" },
+  "ayanni.rodrigues@turbi.com.br":      { nome: "Ayanni Rodrigues",      supervisor: "Dayane Oliveira" },
+  "nicole.soares@turbi.com.br":         { nome: "Nicole Soares",         supervisor: "Dayane Oliveira" }
 };
+const CRITERIOS_DISPONIVEIS = [
+  { id: 'comunicacao_clara', label: 'Condução - Comunicação clara' },
+  { id: 'respondeu_perguntas', label: 'Condução - Respondeu a todas as perguntas' },
+  { id: 'autoatendimento', label: 'Processo - Autoatendimento' },
+  { id: 'encerramento_abrupto', label: 'Comportamento - Encerrou atendimento de forma abrupta' },
+  { id: 'descaso_frieza', label: 'Comportamento - Descaso/Frieza' },
+  { id: 'dados_pessoais', label: 'Compliance - Dados pessoais' }
+];
 
 let criterioCounter = 0;
 
-// ─── CARREGAR DADOS DA PLANILHA ──────────────────────────────────────────────
+// ─── CARREGAMENTO DOS DADOS DA PLANILHA ──────────────────────────────────────
 async function carregarDadosPlanilha() {
-  // TODO: Implementar carregamento de dados da planilha se necessário
-  populateAnalistaSelect();
+  try {
+    if (!APPS_SCRIPT_URL) {
+      console.warn('⚠️ APPS_SCRIPT_URL não configurada.');
+      return;
+    }
+
+    const response = await fetch(APPS_SCRIPT_URL, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      analistaMap = data.analistas || {};
+      preencherSelectAnalista();
+      console.log('✓ Dados de analistas carregados');
+    }
+  } catch (err) {
+    console.error('Erro ao buscar dados da planilha:', err);
+  }
 }
 
-function populateAnalistaSelect() {
+function preencherSelectAnalista() {
   const select = document.getElementById('analista');
-  Object.entries(analistaMap).forEach(([email, data]) => {
-    const opt = document.createElement('option');
-    opt.value = email;
-    opt.text = data.nome;
-    select.appendChild(opt);
+  const emailsOrdenados = Object.keys(analistaMap).sort();
+  
+  emailsOrdenados.forEach(email => {
+    const analista = analistaMap[email];
+    const option = document.createElement('option');
+    option.value = email;
+    option.textContent = `${analista.nome}`;
+    select.appendChild(option);
   });
 }
 
-// ─── CONSTRUIR ITEM DE CRITÉRIO ──────────────────────────────────────────────
-function buildCriterioItem(index) {
-  const opts = Object.entries(analistaMap)
-    .map(([email, data]) => `<option value="${email}">${data.nome}</option>`)
-    .join('');
+function atualizarSupervisor() {
+  const email = document.getElementById('analista').value;
+  const supervisorInput = document.getElementById('supervisor');
+  
+  if (email && analistaMap[email]) {
+    supervisorInput.value = analistaMap[email].supervisor || '';
+  }
+}
 
+// ─── CRITÉRIO DINÂMICO ──────────────────────────────────────────────────────
+function buildCriterioItem(index) {
   const div = document.createElement('div');
   div.className = 'criterio-item';
   div.dataset.index = index;
+  
   div.innerHTML = `
     <div class="criterio-item-header">
-      <span class="criterio-item-num">Critério ${index}</span>
+      <div class="criterio-item-num">Critério ${index}</div>
       <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
     </div>
-    <div class="field-row full">
-      <div class="field" id="field-criterio-${index}">
-        <label>Critério Contestado <span class="req">*</span></label>
-        <select name="criterio-sel">
-          <option value="">Selecione um critério</option>
-          <option value="criatividade">Criatividade</option>
-          <option value="comunicacao">Comunicação</option>
-          <option value="tecnica">Técnica</option>
-          <option value="postura">Postura Profissional</option>
-          <option value="pontualidade">Pontualidade</option>
-        </select>
-      </div>
+    
+    <div class="field" id="field-criterio-${index}">
+      <label>Selecione o Critério <span class="req">*</span></label>
+      <select name="criterio-sel" required>
+        <option value="">— Selecione um critério —</option>
+        ${CRITERIOS_DISPONIVEIS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
+      </select>
     </div>
-    <div class="field-row">
-      <div class="field">
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+      <div class="field" id="field-avaliacao-original-${index}">
         <label>Avaliação Original <span class="req">*</span></label>
-        <div class="radio-group" id="field-avaliacao-original-${index}">
+        <div class="radio-group">
           <div class="radio-option sim">
             <input type="radio" name="avaliacao-original-${index}" id="orig-sim-${index}" value="SIM">
             <label for="orig-sim-${index}">✅ SIM</label>
@@ -604,9 +664,10 @@ function buildCriterioItem(index) {
           </div>
         </div>
       </div>
-      <div class="field">
+      
+      <div class="field" id="field-avaliacao-sugerida-${index}">
         <label>Avaliação Sugerida <span class="req">*</span></label>
-        <div class="radio-group" id="field-avaliacao-sugerida-${index}">
+        <div class="radio-group">
           <div class="radio-option sim">
             <input type="radio" name="avaliacao-sugerida-${index}" id="sug-sim-${index}" value="SIM">
             <label for="sug-sim-${index}">✅ SIM</label>
@@ -617,7 +678,8 @@ function buildCriterioItem(index) {
           </div>
         </div>
       </div>
-    </div>`;
+    </div>
+  `;
   return div;
 }
 
@@ -668,7 +730,6 @@ function clearFieldError(wrap) {
 function validate() {
   let ok = true;
 
-  // Campos fixos
   const requiredFields = [
     { id: 'chamado-id',   fieldId: 'field-chamado-id' },
     { id: 'analista',     fieldId: 'field-analista' },
@@ -683,7 +744,6 @@ function validate() {
     if (!el?.value.trim()) { showFieldError(wrap, 'Campo obrigatório'); ok = false; }
   });
 
-  // Valida cada critério
   document.querySelectorAll('.criterio-item').forEach(item => {
     const idx = item.dataset.index;
     const sel  = item.querySelector('select[name="criterio-sel"]');
@@ -702,37 +762,6 @@ function validate() {
   return ok;
 }
 
-// ─── FUNÇÃO PARA PREENCHER A PLANILHA GOOGLE SHEETS ──────────────────────────
-async function preencherPlanilhaGoogleSheets(payload) {
-  try {
-    // Monta a URL com os parâmetros para o Apps Script
-    // Cada Apps Script deve estar configurado para receber este payload
-    // e escrever os dados na aba específica
-    
-    console.log('Tentando preencher Google Sheets com dados:', payload);
-    console.log('Planilha:', SHEETS_CONFIG.spreadsheetId);
-    console.log('Aba:', SHEETS_CONFIG.sheetName);
-    
-    // Se houver um Apps Script URL, envia os dados
-    if (APPS_SCRIPT_URL) {
-      await fetch(APPS_SCRIPT_URL, {
-        method:  'POST',
-        body:    JSON.stringify({
-          ...payload,
-          sheets_config: SHEETS_CONFIG
-        }),
-        headers: { 'Content-Type': 'text/plain' }
-      });
-      console.log('✓ Dados enviados para Apps Script com sucesso');
-    } else {
-      console.warn('⚠️ APPS_SCRIPT_URL não configurada, mas os dados estariam em:', SHEETS_CONFIG.spreadsheetUrl);
-    }
-  } catch (err) {
-    console.error('Erro ao enviar para Google Sheets:', err);
-    throw err;
-  }
-}
-
 // ─── SUBMISSÃO ──────────────────────────────────────────────────────────────
 document.getElementById('contestacao-form').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -748,10 +777,8 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
   btn.textContent = 'Enviando...';
 
   const analistaEmail = document.getElementById('analista').value;
-  const analistaNome  = analistaMap[analistaEmail]?.nome
-    || document.getElementById('analista').options[document.getElementById('analista').selectedIndex].text;
+  const analistaNome  = analistaMap[analistaEmail]?.nome || document.getElementById('analista').options[document.getElementById('analista').selectedIndex].text;
 
-  // Coleta todos os critérios
   const criterios = [];
   document.querySelectorAll('.criterio-item').forEach(item => {
     const idx = item.dataset.index;
@@ -773,21 +800,23 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
     criterios,
     justificativa: document.getElementById('justificativa').value.trim(),
     evidencia:     document.getElementById('evidencia').value.trim() || null,
-    status:        'ABERTO'
+    status:        'ABERTO',
+    sheets_config: SHEETS_CONFIG
   };
 
-  // ── INTEGRAÇÃO GOOGLE SHEETS ────────────────────────────────────────────────
   try {
-    // Chama a função que preenche a planilha
-    await preencherPlanilhaGoogleSheets(payload);
-    
-    // Se houver um Apps Script URL específico também
     if (APPS_SCRIPT_URL) {
-      await fetch(APPS_SCRIPT_URL, {
+      const response = await fetch(APPS_SCRIPT_URL, {
         method:  'POST',
         body:    JSON.stringify(payload),
         headers: { 'Content-Type': 'text/plain' }
       });
+
+      const result = await response.json();
+
+      if (result.status !== 'success') {
+        throw new Error(result.message || 'Erro ao salvar dados');
+      }
     }
   } catch (err) {
     console.error('Erro ao enviar dados:', err);
@@ -796,7 +825,6 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
     mostrarErroEnvio('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
     return;
   }
-  // ─────────────────────────────────────────────────────────────────────────────
 
   document.getElementById('contestacao-form').style.display = 'none';
   document.getElementById('success-card').style.display = 'block';
@@ -805,12 +833,11 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
     `<strong>Chamado:</strong> ${payload.chamado_id}<br>` +
     `<strong>Analista:</strong> ${payload.analista_nome}<br>` +
     `<strong>Critério(s):</strong> ${criteriosLabel}<br>` +
-    `<strong>Registrado por:</strong> ${payload.supervisor}<br>` +
+    `<strong>Supervisor:</strong> ${payload.supervisor}<br>` +
     `<strong>Protocolo:</strong> CONT-${Date.now()}<br>` +
     `<strong>Planilha:</strong> <a href="${SHEETS_CONFIG.spreadsheetUrl}" target="_blank" style="color:#16A34A;text-decoration:underline;">Acessar Reanálises</a>`;
 });
 
-// ─── MENSAGEM DE ERRO DE ENVIO ───────────────────────────────────────────────
 function mostrarErroEnvio(msg) {
   let el = document.getElementById('send-error-msg');
   if (!el) {
@@ -823,13 +850,11 @@ function mostrarErroEnvio(msg) {
   el.style.display = 'block';
 }
 
-// ─── NOVA CONTESTAÇÃO ───────────────────────────────────────────────────────
 function novaCont() {
   document.getElementById('contestacao-form').reset();
-  document.getElementById('supervisor').classList.remove('auto-filled');
+  document.getElementById('supervisor').value = '';
   document.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
   document.querySelectorAll('.field-error-msg').forEach(m => m.remove());
-  // Reinicia critérios
   const container = document.getElementById('criterios-container');
   container.innerHTML = '';
   criterioCounter = 0;
@@ -843,9 +868,10 @@ function novaCont() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ─── INICIALIZA ──────────────────────────────────────────────────────────────
-addCriterio(); // cria o primeiro critério ao carregar
-carregarDadosPlanilha();
+document.addEventListener('DOMContentLoaded', function() {
+  preencherSelectAnalista();
+  addCriterio();
+});
 </script>
 
 </body>
