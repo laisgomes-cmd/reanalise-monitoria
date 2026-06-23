@@ -5,35 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contestação de Monitoria — Turbi</title>
 <style>
-  @font-face {
-    font-family: 'Ginto Normal';
-    src: url('fonts/GintoNormal-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Ginto Normal';
-    src: url('fonts/GintoNormal-Black.woff2') format('woff2');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Ginto Normal';
-    src: url('fonts/GintoNormal-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: 'Ginto Normal';
-    src: url('fonts/GintoNormal-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-  }
-
   :root {
     --blue: #0D1473;
     --blue-light: #1620A8;
@@ -45,385 +16,112 @@
     --green-bg: #F0FDF4;
     --red: #DC2626;
     --red-bg: #FEF2F2;
-    --yellow: #D97706;
-    --yellow-bg: #FFFBEB;
     --border: #E5E7EB;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F1F5FF; color: #1e1e2e; min-height: 100vh; }
 
-  body {
-    font-family: 'Ginto Normal', 'Segoe UI', system-ui, sans-serif;
-    background: #F1F5FF;
-    color: #1e1e2e;
-    min-height: 100vh;
-  }
+  header { background: var(--dark); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.4); }
+  .header-inner { display: flex; align-items: center; gap: 14px; padding: 14px 32px; border-bottom: 3px solid var(--cyan); }
+  .logo-text { color: var(--cyan); font-weight: 900; font-size: 18px; letter-spacing: 0.05em; }
 
-  header {
-    background: var(--dark);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.4);
-  }
-  .header-inner {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 14px 32px;
-    border-bottom: 3px solid var(--cyan);
-  }
-  .logo-pin img { height: 28px; width: auto; object-fit: contain; }
-
-  .hero {
-    background: linear-gradient(135deg, #07094A 0%, var(--blue) 55%, #1620A8 100%);
-    padding: 40px 32px 36px;
-    color: white;
-    text-align: center;
-  }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.25);
-    border-radius: 20px;
-    padding: 5px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 16px;
-  }
-  .hero h1 { font-size: 26px; font-weight: 900; line-height: 1.25; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .hero { background: linear-gradient(135deg, #07094A 0%, var(--blue) 55%, #1620A8 100%); padding: 36px 32px 32px; color: white; text-align: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
+  .hero h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
   .hero p { font-size: 13px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto; line-height: 1.6; }
 
-  .form-wrap {
-    max-width: 720px;
-    margin: 32px auto 60px;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
+  .form-wrap { max-width: 720px; margin: 28px auto 60px; padding: 0 20px; display: flex; flex-direction: column; gap: 18px; }
 
-  .block-card {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(13,20,115,0.08);
-    overflow: hidden;
-    border: 1.5px solid transparent;
-  }
-  .block-card.active { border-color: rgba(13,20,115,0.2); }
-
-  .block-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 18px 24px 14px;
-    border-bottom: 1px solid var(--border);
-  }
-  .block-num {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background: var(--blue);
-    color: white;
-    font-size: 13px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .block-title { font-size: 14px; font-weight: 900; color: var(--blue); letter-spacing: -0.01em; }
+  .block-card { background: white; border-radius: 14px; box-shadow: 0 2px 8px rgba(13,20,115,0.08); overflow: hidden; border: 1.5px solid transparent; }
+  .block-header { display: flex; align-items: center; gap: 12px; padding: 16px 22px 13px; border-bottom: 1px solid var(--border); }
+  .block-num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: white; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .block-title { font-size: 13px; font-weight: 900; color: var(--blue); }
   .block-subtitle { font-size: 11px; color: var(--gray); margin-top: 1px; }
+  .block-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 16px; }
 
-  .block-body { padding: 22px 24px; display: flex; flex-direction: column; gap: 18px; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); }
+  .field label .req { color: var(--red); margin-left: 2px; }
+  .field input, .field select, .field textarea {
+    width: 100%; padding: 9px 13px; border: 1.5px solid var(--border); border-radius: 9px;
+    font-family: inherit; font-size: 13px; color: #1e1e2e; background: var(--gray-light);
+    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(13,20,115,0.10); }
+  .field textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
+  .field select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+  .field-hint { font-size: 11px; color: var(--gray); line-height: 1.5; margin-top: -2px; }
 
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-  @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .field-row.full { grid-template-columns: 1fr; }
 
-  .field { display: flex; flex-direction: column; gap: 6px; }
-  .field label {
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--gray);
-  }
-  .field label .req { color: var(--red); margin-left: 2px; }
-
-  .field input,
-  .field select,
-  .field textarea {
-    width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    font-family: 'Ginto Normal', sans-serif;
-    font-size: 13px;
-    color: #1e1e2e;
-    background: var(--gray-light);
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-  }
-  .field input:focus,
-  .field select:focus,
-  .field textarea:focus {
-    border-color: var(--blue);
-    background: white;
-    box-shadow: 0 0 0 3px rgba(13,20,115,0.10);
-  }
-  .field input::placeholder,
-  .field textarea::placeholder { color: #9CA3AF; }
-  .field textarea { resize: vertical; min-height: 90px; line-height: 1.5; }
-  .field select { cursor: pointer; appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    padding-right: 36px;
-  }
-  .field select:disabled { opacity: 0.5; cursor: not-allowed; }
-
-  .radio-group { display: flex; gap: 10px; }
+  .radio-group { display: flex; gap: 8px; }
   .radio-option { flex: 1; }
   .radio-option input[type="radio"] { display: none; }
-  .radio-option label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 14px;
-    border: 2px solid var(--border);
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-transform: none;
-    letter-spacing: 0;
-    color: var(--gray);
-    background: var(--gray-light);
-    user-select: none;
-  }
-  .radio-option.sim input:checked + label {
-    border-color: var(--green);
-    background: var(--green-bg);
-    color: var(--green);
-  }
-  .radio-option.nao input:checked + label {
-    border-color: var(--red);
-    background: var(--red-bg);
-    color: var(--red);
-  }
-  .radio-option label:hover { border-color: #9CA3AF; background: white; }
+  .radio-option label { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 9px 12px; border: 2px solid var(--border); border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--gray); background: var(--gray-light); user-select: none; text-transform: none; letter-spacing: 0; }
+  .radio-option.sim input:checked + label { border-color: var(--green); background: var(--green-bg); color: var(--green); }
+  .radio-option.nao input:checked + label { border-color: var(--red); background: var(--red-bg); color: var(--red); }
 
-  .field-hint {
-    font-size: 11px;
-    color: var(--gray);
-    line-height: 1.5;
-    margin-top: -4px;
-  }
+  .criterio-item { border: 1.5px solid var(--border); border-radius: 9px; padding: 13px 15px; background: var(--gray-light); display: flex; flex-direction: column; gap: 11px; }
+  .criterio-item-header { display: flex; align-items: center; justify-content: space-between; }
+  .criterio-item-num { font-size: 12px; font-weight: 700; color: var(--blue); }
+  .btn-remove-criterio { padding: 3px 10px; font-size: 11px; font-weight: 700; color: var(--red); background: transparent; border: none; cursor: pointer; text-transform: uppercase; }
 
-  .criterio-item {
-    border: 1.5px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    background: var(--gray-light);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .criterio-item-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .criterio-item-num {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--blue);
-  }
-  .btn-remove-criterio {
-    display: inline-block;
-    padding: 4px 12px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--red);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: opacity 0.2s;
-  }
-  .btn-remove-criterio:hover { opacity: 0.7; }
-
-  .criterio-item select {
-    margin-bottom: 4px;
-  }
-
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 10px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Ginto Normal', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .btn-primary {
-    background: var(--blue);
-    color: white;
-  }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 22px; border: none; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; text-transform: uppercase; letter-spacing: 0.05em; }
+  .btn-primary { background: var(--blue); color: white; }
   .btn-primary:hover { background: #0A0F5F; }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--blue);
-    border: 1.5px solid var(--border);
-  }
-  .btn-secondary:hover { border-color: var(--blue); }
-
-  .btn-add {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 16px;
-    background: transparent;
-    color: var(--blue);
-    border: 1.5px dashed var(--border);
-    border-radius: 10px;
-    font-size: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s;
-    margin-top: 8px;
-  }
+  .btn-add { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px; background: transparent; color: var(--blue); border: 1.5px dashed var(--border); border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
   .btn-add:hover { border-color: var(--blue); background: rgba(13,20,115,0.05); }
 
-  .field.error {
-    border-radius: 10px;
-    padding: 2px;
-  }
-  .field-error-msg {
-    font-size: 11px;
-    color: var(--red);
-    margin-top: 2px;
-  }
+  .field.error .field-error-msg { font-size: 11px; color: var(--red); margin-top: 2px; }
 
-  .success-card {
-    display: none;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(13,20,115,0.08);
-    overflow: hidden;
-    padding: 32px 24px;
-    text-align: center;
-    max-width: 720px;
-    margin: 32px auto;
-  }
-  .success-card.show { display: block; }
-  .success-card-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-  }
-  .success-card h2 {
-    font-size: 18px;
-    color: var(--blue);
-    margin-bottom: 8px;
-  }
-  .success-card p {
-    font-size: 13px;
-    color: var(--gray);
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
-  #success-meta {
-    text-align: left;
-    background: var(--gray-light);
-    padding: 16px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-size: 12px;
-    line-height: 1.8;
-    color: #1e1e2e;
-  }
+  #success-card { display: none; background: white; border-radius: 14px; box-shadow: 0 2px 8px rgba(13,20,115,0.08); padding: 28px 22px; text-align: center; max-width: 720px; margin: 28px auto; }
+  #success-card.show { display: block; }
+  .success-icon { font-size: 44px; margin-bottom: 14px; }
+  #success-card h2 { font-size: 17px; color: var(--blue); margin-bottom: 8px; }
+  #success-card p { font-size: 13px; color: var(--gray); margin-bottom: 18px; line-height: 1.6; }
+  #success-meta { text-align: left; background: var(--gray-light); padding: 14px; border-radius: 9px; margin-bottom: 18px; font-size: 12px; line-height: 1.9; color: #1e1e2e; }
   #success-meta strong { color: var(--blue); }
-  .success-actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-  }
 
-  .loading { opacity: 0.6; pointer-events: none; }
-
-  @media (max-width: 640px) {
-    .hero h1 { font-size: 20px; }
-    .hero p { font-size: 12px; }
-    .form-wrap { margin: 24px auto 40px; padding: 0 16px; }
-  }
+  #send-error { display: none; margin-top: 10px; padding: 11px 14px; background: var(--red-bg); color: #B91C1C; border-radius: 8px; font-size: 13px; border: 1px solid #FECACA; }
 </style>
 </head>
 <body>
 
 <header>
   <div class="header-inner">
-    <div class="logo-pin">
-      <img src="logo.svg" alt="Turbi">
-    </div>
-    <span style="color:#41B6E6;font-weight:700;font-size:11px;">TURBI</span>
+    <span class="logo-text">TURBI</span>
   </div>
 </header>
 
 <section class="hero">
   <div class="hero-badge">📋 Reanálise de Qualidade</div>
   <h1>Contestação de Monitoria</h1>
-  <p>Registre sua contestação de reanálise de qualidade de forma segura e rastreável. Todos os dados são salvos automaticamente na planilha de controle.</p>
+  <p>Registre sua contestação de reanálise. Os dados são salvos diretamente na planilha de controle.</p>
 </section>
 
-<form id="contestacao-form" class="form-wrap">
+<form id="form" class="form-wrap">
 
-  <!-- BLOCO 1: DADOS DO CHAMADO -->
-  <div class="block-card active">
+  <!-- BLOCO 1 -->
+  <div class="block-card">
     <div class="block-header">
       <div class="block-num">1</div>
-      <div>
-        <div class="block-title">Identificação do Chamado</div>
-        <div class="block-subtitle">Informações básicas da reanálise</div>
-      </div>
+      <div><div class="block-title">Identificação do Chamado</div><div class="block-subtitle">Informações básicas da reanálise</div></div>
     </div>
     <div class="block-body">
-      <div class="field-row full">
-        <div class="field" id="field-chamado-id">
-          <label>ID do Chamado <span class="req">*</span></label>
-          <input type="text" id="chamado-id" placeholder="ex: CHAT-123456" required>
-        </div>
+      <div class="field field-row full" id="field-chamado-id">
+        <label>ID do Chamado <span class="req">*</span></label>
+        <input type="text" id="chamado-id" placeholder="ex: CHAT-123456" required>
       </div>
     </div>
   </div>
 
-  <!-- BLOCO 2: RESPONSÁVEIS -->
+  <!-- BLOCO 2 -->
   <div class="block-card">
     <div class="block-header">
       <div class="block-num">2</div>
-      <div>
-        <div class="block-title">Responsáveis</div>
-        <div class="block-subtitle">Analista e supervisor da contestação</div>
-      </div>
+      <div><div class="block-title">Responsáveis</div><div class="block-subtitle">Analista e supervisor da contestação</div></div>
     </div>
     <div class="block-body">
       <div class="field" id="field-analista">
@@ -433,20 +131,17 @@
         </select>
       </div>
       <div class="field" id="field-supervisor">
-        <label>Supervisor da Contestação <span class="req">*</span></label>
-        <input type="text" id="supervisor" placeholder="Será preenchido automaticamente" readonly>
+        <label>Supervisor da Contestação</label>
+        <input type="text" id="supervisor" placeholder="Preenchido automaticamente" readonly>
       </div>
     </div>
   </div>
 
-  <!-- BLOCO 3: CRITÉRIOS CONTESTADOS -->
+  <!-- BLOCO 3 -->
   <div class="block-card">
     <div class="block-header">
       <div class="block-num">3</div>
-      <div>
-        <div class="block-title">Critérios Contestados</div>
-        <div class="block-subtitle">Selecione os critérios de desacordo</div>
-      </div>
+      <div><div class="block-title">Critérios Contestados</div><div class="block-subtitle">Selecione os critérios de desacordo</div></div>
     </div>
     <div class="block-body">
       <div id="criterios-container"></div>
@@ -454,14 +149,11 @@
     </div>
   </div>
 
-  <!-- BLOCO 4: JUSTIFICATIVA E EVIDÊNCIAS -->
+  <!-- BLOCO 4 -->
   <div class="block-card">
     <div class="block-header">
       <div class="block-num">4</div>
-      <div>
-        <div class="block-title">Justificativa e Evidências</div>
-        <div class="block-subtitle">Explique sua posição com detalhes</div>
-      </div>
+      <div><div class="block-title">Justificativa e Evidências</div><div class="block-subtitle">Explique sua posição com detalhes</div></div>
     </div>
     <div class="block-body">
       <div class="field field-row full" id="field-justificativa">
@@ -471,41 +163,33 @@
       <div class="field field-row full">
         <label>Link de Evidências (opcional)</label>
         <input type="url" id="evidencia" placeholder="https://exemplo.com/evidencia">
-        <div class="field-hint">Pode ser um link para gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
+        <div class="field-hint">Gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
       </div>
     </div>
   </div>
 
-  <!-- BOTÕES -->
-  <div style="display: flex; gap: 12px; margin-top: 12px;">
+  <div>
     <button type="submit" id="btn-submit" class="btn btn-primary">Registrar Reanálise</button>
+    <div id="send-error"></div>
   </div>
 
 </form>
 
-<!-- CARD DE SUCESSO -->
-<div id="success-card" class="success-card">
-  <div class="success-card-icon">✅</div>
+<!-- SUCESSO -->
+<div id="success-card">
+  <div class="success-icon">✅</div>
   <h2>Reanálise Registrada com Sucesso!</h2>
-  <p>Sua contestação foi registrada e está sendo processada. Um supervisor entrarará em contato em breve.</p>
+  <p>Sua contestação foi salva na planilha de controle. Um supervisor entrará em contato em breve.</p>
   <div id="success-meta"></div>
-  <div class="success-actions">
-    <button type="button" class="btn btn-primary" onclick="novaCont()">Nova Reanálise</button>
-  </div>
+  <button type="button" class="btn btn-primary" onclick="novaCont()">Nova Reanálise</button>
 </div>
 
 <script>
-// ─── CONFIGURAÇÃO ───────────────────────────────────────────────────────────
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8ZnS1WQCrDYBAFvQ6YgceQKulaQn9ob7f8vYRQ8AiZsL1uzV5ql-5h8l9ainjA0Lx8Q/exec';
+// ─── CONFIGURAÇÃO ─────────────────────────────────────────────────────────────
+// URL do Apps Script implantado como Web App
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8taWSXa-xN3ot_jkaBCeQvjA5jiicRiHtmyiMw_yyixdoa8TJCYc4icVRXot9VGNCIg/exec';
 
-const SHEETS_CONFIG = {
-  spreadsheetId: '1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804',
-  sheetName: 'Reanálise/Devolução de qualidade',
-  spreadsheetUrl: 'https://docs.google.com/spreadsheets/d/1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804/'
-};
-
-// ─── DADOS ──────────────────────────────────────────────────────────────────
-// Lista de analistas da aba PESSOAS da planilha de controle
+// ─── DADOS ───────────────────────────────────────────────────────────────────
 const analistaMap = {
   "carlos.oliveira@turbi.com.br":       { nome: "Carlos Oliveira",       supervisor: "Barbara Toledo" },
   "barbara.olimpio@turbi.com.br":       { nome: "Barbara Olimpio",       supervisor: "Alexandre Checozzi" },
@@ -572,91 +256,72 @@ const analistaMap = {
   "nicole.soares@turbi.com.br":         { nome: "Nicole Soares",         supervisor: "Dayane Oliveira" }
 };
 
-const CRITERIOS_DISPONIVEIS = [
-  { id: 'comunicacao_clara', label: 'Condução - Comunicação clara' },
-  { id: 'respondeu_perguntas', label: 'Condução - Respondeu a todas as perguntas' },
-  { id: 'autoatendimento', label: 'Processo - Autoatendimento' },
-  { id: 'encerramento_abrupto', label: 'Comportamento - Encerrou atendimento de forma abrupta' },
-  { id: 'descaso_frieza', label: 'Comportamento - Descaso/Frieza' },
-  { id: 'dados_pessoais', label: 'Compliance - Dados pessoais' }
+const CRITERIOS = [
+  { id: 'comunicacao_clara',      label: 'Condução - Comunicação clara' },
+  { id: 'respondeu_perguntas',    label: 'Condução - Respondeu a todas as perguntas' },
+  { id: 'autoatendimento',        label: 'Processo - Autoatendimento' },
+  { id: 'encerramento_abrupto',   label: 'Comportamento - Encerrou atendimento de forma abrupta' },
+  { id: 'descaso_frieza',         label: 'Comportamento - Descaso/Frieza' },
+  { id: 'dados_pessoais',         label: 'Compliance - Dados pessoais' }
 ];
 
 let criterioCounter = 0;
 
+// ─── ANALISTAS ────────────────────────────────────────────────────────────────
 function preencherSelectAnalista() {
   const select = document.getElementById('analista');
-  const emailsOrdenados = Object.keys(analistaMap).sort((a, b) =>
-    analistaMap[a].nome.localeCompare(analistaMap[b].nome)
-  );
-  emailsOrdenados.forEach(email => {
-    const option = document.createElement('option');
-    option.value = email;
-    option.textContent = analistaMap[email].nome;
-    select.appendChild(option);
-  });
+  Object.keys(analistaMap)
+    .sort((a, b) => analistaMap[a].nome.localeCompare(analistaMap[b].nome))
+    .forEach(email => {
+      const opt = document.createElement('option');
+      opt.value = email;
+      opt.textContent = analistaMap[email].nome;
+      select.appendChild(opt);
+    });
 }
 
 function atualizarSupervisor() {
   const email = document.getElementById('analista').value;
-  const supervisorInput = document.getElementById('supervisor');
-  if (email && analistaMap[email]) {
-    supervisorInput.value = analistaMap[email].supervisor || '';
-  }
+  document.getElementById('supervisor').value =
+    (email && analistaMap[email]) ? (analistaMap[email].supervisor || '') : '';
 }
 
-// ─── CRITÉRIO DINÂMICO ──────────────────────────────────────────────────────
-function buildCriterioItem(index) {
-  const div = document.createElement('div');
-  div.className = 'criterio-item';
-  div.dataset.index = index;
-  div.innerHTML = `
-    <div class="criterio-item-header">
-      <div class="criterio-item-num">Critério ${index}</div>
-      <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
-    </div>
-    <div class="field" id="field-criterio-${index}">
-      <label>Selecione o Critério <span class="req">*</span></label>
-      <select name="criterio-sel" required>
-        <option value="">— Selecione um critério —</option>
-        ${CRITERIOS_DISPONIVEIS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
-      </select>
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-      <div class="field" id="field-avaliacao-original-${index}">
-        <label>Avaliação Original <span class="req">*</span></label>
-        <div class="radio-group">
-          <div class="radio-option sim">
-            <input type="radio" name="avaliacao-original-${index}" id="orig-sim-${index}" value="SIM">
-            <label for="orig-sim-${index}">✅ SIM</label>
-          </div>
-          <div class="radio-option nao">
-            <input type="radio" name="avaliacao-original-${index}" id="orig-nao-${index}" value="NÃO">
-            <label for="orig-nao-${index}">❌ NÃO</label>
-          </div>
-        </div>
-      </div>
-      <div class="field" id="field-avaliacao-sugerida-${index}">
-        <label>Avaliação Sugerida <span class="req">*</span></label>
-        <div class="radio-group">
-          <div class="radio-option sim">
-            <input type="radio" name="avaliacao-sugerida-${index}" id="sug-sim-${index}" value="SIM">
-            <label for="sug-sim-${index}">✅ SIM</label>
-          </div>
-          <div class="radio-option nao">
-            <input type="radio" name="avaliacao-sugerida-${index}" id="sug-nao-${index}" value="NÃO">
-            <label for="sug-nao-${index}">❌ NÃO</label>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
-  return div;
-}
-
+// ─── CRITÉRIOS DINÂMICOS ──────────────────────────────────────────────────────
 function addCriterio() {
   criterioCounter++;
-  const container = document.getElementById('criterios-container');
-  container.appendChild(buildCriterioItem(criterioCounter));
+  const idx = criterioCounter;
+  const div = document.createElement('div');
+  div.className = 'criterio-item';
+  div.dataset.index = idx;
+  div.innerHTML = `
+    <div class="criterio-item-header">
+      <div class="criterio-item-num">Critério ${idx}</div>
+      <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
+    </div>
+    <div class="field" id="fc-${idx}">
+      <label>Selecione o Critério <span class="req">*</span></label>
+      <select name="criterio-sel" required>
+        <option value="">— Selecione —</option>
+        ${CRITERIOS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="field" id="fo-${idx}">
+        <label>Avaliação Original <span class="req">*</span></label>
+        <div class="radio-group">
+          <div class="radio-option sim"><input type="radio" name="ao-${idx}" id="ao-sim-${idx}" value="SIM"><label for="ao-sim-${idx}">✅ SIM</label></div>
+          <div class="radio-option nao"><input type="radio" name="ao-${idx}" id="ao-nao-${idx}" value="NÃO"><label for="ao-nao-${idx}">❌ NÃO</label></div>
+        </div>
+      </div>
+      <div class="field" id="fs-${idx}">
+        <label>Avaliação Sugerida <span class="req">*</span></label>
+        <div class="radio-group">
+          <div class="radio-option sim"><input type="radio" name="as-${idx}" id="as-sim-${idx}" value="SIM"><label for="as-sim-${idx}">✅ SIM</label></div>
+          <div class="radio-option nao"><input type="radio" name="as-${idx}" id="as-nao-${idx}" value="NÃO"><label for="as-nao-${idx}">❌ NÃO</label></div>
+        </div>
+      </div>
+    </div>`;
+  document.getElementById('criterios-container').appendChild(div);
   atualizarBotoesRemover();
 }
 
@@ -676,72 +341,62 @@ function atualizarBotoesRemover() {
   const items = document.querySelectorAll('.criterio-item');
   items.forEach(item => {
     item.querySelector('.btn-remove-criterio').style.display =
-      items.length > 1 ? 'inline-block' : 'none';
+      items.length > 1 ? '' : 'none';
   });
 }
 
-// ─── VALIDAÇÃO ──────────────────────────────────────────────────────────────
-function showFieldError(wrap, msg) {
-  wrap?.querySelector('.field-error-msg')?.remove();
-  wrap?.classList.add('error');
-  const el = document.createElement('div');
-  el.className = 'field-error-msg';
-  el.textContent = msg;
-  wrap?.appendChild(el);
-}
-
-function clearFieldError(wrap) {
-  wrap?.querySelector('.field-error-msg')?.remove();
-  wrap?.classList.remove('error');
-}
-
+// ─── VALIDAÇÃO ────────────────────────────────────────────────────────────────
 function validate() {
   let ok = true;
   [
-    { id: 'chamado-id',    fieldId: 'field-chamado-id' },
-    { id: 'analista',      fieldId: 'field-analista' },
-    { id: 'supervisor',    fieldId: 'field-supervisor' },
-    { id: 'justificativa', fieldId: 'field-justificativa' },
+    { id: 'chamado-id',    fId: 'field-chamado-id' },
+    { id: 'analista',      fId: 'field-analista' },
+    { id: 'justificativa', fId: 'field-justificativa' },
   ].forEach(f => {
     const el = document.getElementById(f.id);
-    const wrap = document.getElementById(f.fieldId);
-    clearFieldError(wrap);
-    if (!el?.value.trim()) { showFieldError(wrap, 'Campo obrigatório'); ok = false; }
+    const wrap = document.getElementById(f.fId);
+    wrap.querySelector('.field-error-msg')?.remove();
+    if (!el?.value.trim()) {
+      const e = document.createElement('div');
+      e.className = 'field-error-msg';
+      e.textContent = 'Campo obrigatório';
+      wrap.appendChild(e);
+      ok = false;
+    }
   });
 
   document.querySelectorAll('.criterio-item').forEach(item => {
     const idx = item.dataset.index;
     const sel = item.querySelector('select[name="criterio-sel"]');
-    const wrapSel = item.querySelector(`#field-criterio-${idx}`);
-    clearFieldError(wrapSel);
-    if (!sel?.value) { showFieldError(wrapSel, 'Selecione o critério'); ok = false; }
-    ['avaliacao-original', 'avaliacao-sugerida'].forEach(name => {
-      const checked = item.querySelector(`input[name="${name}-${idx}"]:checked`);
-      const wrap = item.querySelector(`#field-${name}-${idx}`);
-      clearFieldError(wrap);
-      if (!checked) { showFieldError(wrap, 'Selecione uma opção'); ok = false; }
+    const wSel = item.querySelector(`#fc-${idx}`);
+    wSel.querySelector('.field-error-msg')?.remove();
+    if (!sel?.value) { const e = document.createElement('div'); e.className='field-error-msg'; e.textContent='Selecione o critério'; wSel.appendChild(e); ok = false; }
+
+    ['ao', 'as'].forEach(prefix => {
+      const checked = item.querySelector(`input[name="${prefix}-${idx}"]:checked`);
+      const wR = item.querySelector(`#f${prefix === 'ao' ? 'o' : 's'}-${idx}`);
+      wR.querySelector('.field-error-msg')?.remove();
+      if (!checked) { const e = document.createElement('div'); e.className='field-error-msg'; e.textContent='Selecione uma opção'; wR.appendChild(e); ok = false; }
     });
   });
 
   return ok;
 }
 
-// ─── SUBMISSÃO ──────────────────────────────────────────────────────────────
-document.getElementById('contestacao-form').addEventListener('submit', async function(e) {
+// ─── SUBMISSÃO ────────────────────────────────────────────────────────────────
+document.getElementById('form').addEventListener('submit', async function(e) {
   e.preventDefault();
-
   if (!validate()) {
-    const firstError = document.querySelector('.field.error input, .field.error select, .field.error textarea');
-    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.querySelector('.field-error-msg')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
 
   const btn = document.getElementById('btn-submit');
   btn.disabled = true;
   btn.textContent = 'Enviando...';
+  document.getElementById('send-error').style.display = 'none';
 
-  const analistaEmail = document.getElementById('analista').value;
-  const analistaNome = analistaMap[analistaEmail]?.nome || '';
+  const email = document.getElementById('analista').value;
 
   const criterios = [];
   document.querySelectorAll('.criterio-item').forEach(item => {
@@ -750,79 +405,73 @@ document.getElementById('contestacao-form').addEventListener('submit', async fun
     criterios.push({
       criterio:           sel.value,
       criterio_label:     sel.options[sel.selectedIndex]?.text || '',
-      avaliacao_original: item.querySelector(`input[name="avaliacao-original-${idx}"]:checked`)?.value || '',
-      avaliacao_sugerida: item.querySelector(`input[name="avaliacao-sugerida-${idx}"]:checked`)?.value || ''
+      avaliacao_original: item.querySelector(`input[name="ao-${idx}"]:checked`)?.value || '',
+      avaliacao_sugerida: item.querySelector(`input[name="as-${idx}"]:checked`)?.value || ''
     });
   });
 
   const payload = {
     timestamp:      new Date().toISOString(),
     chamado_id:     document.getElementById('chamado-id').value.trim(),
-    analista_email: analistaEmail,
-    analista_nome:  analistaNome,
+    analista_email: email,
+    analista_nome:  analistaMap[email]?.nome || '',
     supervisor:     document.getElementById('supervisor').value,
     criterios,
     justificativa:  document.getElementById('justificativa').value.trim(),
     evidencia:      document.getElementById('evidencia').value.trim() || null,
-    status:         'ABERTO',
-    sheets_config:  SHEETS_CONFIG
+    status:         'ABERTO'
   };
 
+  // ─────────────────────────────────────────────────────────────────────────────
+  // ENVIO VIA GET com ?data=JSON
+  //
+  // Por que GET e não POST?
+  // O Apps Script redireciona requisições POST (302), e o redirect converte
+  // POST → GET, fazendo o doPost nunca ser chamado. Com GET isso não acontece:
+  // o redirect mantém GET e o doGet recebe os parâmetros corretamente.
+  //
+  // Por que mode: 'no-cors'?
+  // O Apps Script não inclui cabeçalhos CORS na resposta para scripts externos.
+  // Com no-cors o browser faz a requisição normalmente (dados chegam ao servidor)
+  // mas retorna uma resposta opaca (sem corpo legível). Isso é suficiente — o
+  // Apps Script grava na planilha independentemente de lermos a resposta.
+  // ─────────────────────────────────────────────────────────────────────────────
   try {
-    // mode: 'no-cors' é necessário quando o HTML é aberto como arquivo local (file://)
-    // O fetch envia os dados normalmente; a resposta opaca não pode ser lida, mas o envio ocorre.
-    await fetch(APPS_SCRIPT_URL, {
-      method:  'POST',
-      body:    JSON.stringify(payload),
-      headers: { 'Content-Type': 'text/plain' },
-      mode:    'no-cors'
-    });
+    const url = APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
+    await fetch(url, { method: 'GET', mode: 'no-cors' });
+    mostrarSucesso(payload, criterios);
   } catch (err) {
-    console.error('Erro ao enviar dados:', err);
+    // Erros de rede (offline, DNS, etc.)
+    document.getElementById('send-error').textContent =
+      '⚠️ Erro de conexão: verifique sua internet e tente novamente. (' + err.message + ')';
+    document.getElementById('send-error').style.display = 'block';
     btn.disabled = false;
     btn.textContent = 'Registrar Reanálise';
-    mostrarErroEnvio('Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente.');
-    return;
   }
+});
 
-  document.getElementById('contestacao-form').style.display = 'none';
-  document.getElementById('success-card').style.display = 'block';
-  const criteriosLabel = payload.criterios.map(c => c.criterio_label).join(', ');
+function mostrarSucesso(payload, criterios) {
+  document.getElementById('form').style.display = 'none';
+  document.getElementById('success-card').classList.add('show');
   document.getElementById('success-meta').innerHTML =
     `<strong>Chamado:</strong> ${payload.chamado_id}<br>` +
     `<strong>Analista:</strong> ${payload.analista_nome}<br>` +
-    `<strong>Critério(s):</strong> ${criteriosLabel}<br>` +
+    `<strong>Critério(s):</strong> ${criterios.map(c => c.criterio_label).join(', ')}<br>` +
     `<strong>Supervisor:</strong> ${payload.supervisor}<br>` +
-    `<strong>Protocolo:</strong> CONT-${Date.now()}<br>` +
-    `<strong>Planilha:</strong> <a href="${SHEETS_CONFIG.spreadsheetUrl}" target="_blank" style="color:#16A34A;text-decoration:underline;">Acessar Reanálises</a>`;
-});
-
-function mostrarErroEnvio(msg) {
-  let el = document.getElementById('send-error-msg');
-  if (!el) {
-    el = document.createElement('div');
-    el.id = 'send-error-msg';
-    el.style.cssText = 'margin-top:12px;padding:12px 16px;background:#FEF2F2;color:#B91C1C;border-radius:8px;font-size:13px;border:1px solid #FECACA;';
-    document.getElementById('btn-submit').insertAdjacentElement('afterend', el);
-  }
-  el.textContent = '⚠️ ' + msg;
-  el.style.display = 'block';
+    `<strong>Protocolo:</strong> CONT-${Date.now()}`;
 }
 
 function novaCont() {
-  document.getElementById('contestacao-form').reset();
+  document.getElementById('form').reset();
   document.getElementById('supervisor').value = '';
-  document.querySelectorAll('.field.error').forEach(f => f.classList.remove('error'));
   document.querySelectorAll('.field-error-msg').forEach(m => m.remove());
   document.getElementById('criterios-container').innerHTML = '';
   criterioCounter = 0;
   addCriterio();
-  document.getElementById('contestacao-form').style.display = '';
-  document.getElementById('success-card').style.display = 'none';
+  document.getElementById('form').style.display = '';
+  document.getElementById('success-card').classList.remove('show');
   document.getElementById('btn-submit').disabled = false;
   document.getElementById('btn-submit').textContent = 'Registrar Reanálise';
-  const errMsg = document.getElementById('send-error-msg');
-  if (errMsg) errMsg.style.display = 'none';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -831,6 +480,5 @@ document.addEventListener('DOMContentLoaded', function() {
   addCriterio();
 });
 </script>
-
 </body>
 </html>
