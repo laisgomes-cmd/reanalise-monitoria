@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contestação de Monitoria — Turbi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
 <style>
   :root {
     --blue: #0D1473;
@@ -23,7 +25,7 @@
 
   header { background: var(--dark); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.4); }
   .header-inner { display: flex; align-items: center; gap: 14px; padding: 14px 32px; border-bottom: 3px solid var(--cyan); }
-  .logo-text { color: var(--cyan); font-weight: 900; font-size: 18px; letter-spacing: 0.05em; }
+  .logo-img { height: 32px; width: auto; display: block; font-family: 'Nunito', 'Arial Rounded MT Bold', sans-serif; font-weight: 900; font-size: 26px; color: white; letter-spacing: -0.5px; }
 
   .hero { background: linear-gradient(135deg, #07094A 0%, var(--blue) 55%, #1620A8 100%); padding: 36px 32px 32px; color: white; text-align: center; }
   .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
@@ -71,8 +73,9 @@
   .btn-primary { background: var(--blue); color: white; }
   .btn-primary:hover { background: #0A0F5F; }
   .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-  .btn-add { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 9px 14px; background: transparent; color: var(--blue); border: 1.5px dashed var(--border); border-radius: 9px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 6px; }
-  .btn-add:hover { border-color: var(--blue); background: rgba(13,20,115,0.05); }
+  .aviso-criterio { display: flex; align-items: flex-start; gap: 12px; margin-top: 8px; padding: 14px 16px; background: #FFFBEB; border: 2px solid #F59E0B; border-radius: 10px; }
+  .aviso-criterio .aviso-icon { font-size: 20px; flex-shrink: 0; line-height: 1.3; }
+  .aviso-criterio .aviso-text { font-size: 13px; font-weight: 700; color: #92400E; line-height: 1.5; }
 
   .field.error .field-error-msg { font-size: 11px; color: var(--red); margin-top: 2px; }
 
@@ -91,7 +94,9 @@
 
 <header>
   <div class="header-inner">
-    <span class="logo-text">TURBI</span>
+    <svg class="logo-img" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg" aria-label="turbi">
+      <text y="30" font-family="'Nunito', 'Arial Rounded MT Bold', 'Trebuchet MS', sans-serif" font-weight="900" font-size="34" fill="white" letter-spacing="-0.5">turbi</text>
+    </svg>
   </div>
 </header>
 
@@ -145,7 +150,10 @@
     </div>
     <div class="block-body">
       <div id="criterios-container"></div>
-      <button type="button" class="btn-add" onclick="addCriterio()">+ Adicionar Critério</button>
+      <div class="aviso-criterio">
+        <span class="aviso-icon">⚠️</span>
+        <span class="aviso-text">Atenção! Se tiver mais critérios para contestar, seguir com uma nova abertura de contestação.</span>
+      </div>
     </div>
   </div>
 
@@ -304,22 +312,6 @@ function addCriterio() {
         <option value="">— Selecione —</option>
         ${CRITERIOS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
       </select>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="field" id="fo-${idx}">
-        <label>Avaliação Original <span class="req">*</span></label>
-        <div class="radio-group">
-          <div class="radio-option sim"><input type="radio" name="ao-${idx}" id="ao-sim-${idx}" value="SIM"><label for="ao-sim-${idx}">✅ SIM</label></div>
-          <div class="radio-option nao"><input type="radio" name="ao-${idx}" id="ao-nao-${idx}" value="NÃO"><label for="ao-nao-${idx}">❌ NÃO</label></div>
-        </div>
-      </div>
-      <div class="field" id="fs-${idx}">
-        <label>Avaliação Sugerida <span class="req">*</span></label>
-        <div class="radio-group">
-          <div class="radio-option sim"><input type="radio" name="as-${idx}" id="as-sim-${idx}" value="SIM"><label for="as-sim-${idx}">✅ SIM</label></div>
-          <div class="radio-option nao"><input type="radio" name="as-${idx}" id="as-nao-${idx}" value="NÃO"><label for="as-nao-${idx}">❌ NÃO</label></div>
-        </div>
-      </div>
     </div>`;
   document.getElementById('criterios-container').appendChild(div);
   atualizarBotoesRemover();
@@ -371,13 +363,6 @@ function validate() {
     const wSel = item.querySelector(`#fc-${idx}`);
     wSel.querySelector('.field-error-msg')?.remove();
     if (!sel?.value) { const e = document.createElement('div'); e.className='field-error-msg'; e.textContent='Selecione o critério'; wSel.appendChild(e); ok = false; }
-
-    ['ao', 'as'].forEach(prefix => {
-      const checked = item.querySelector(`input[name="${prefix}-${idx}"]:checked`);
-      const wR = item.querySelector(`#f${prefix === 'ao' ? 'o' : 's'}-${idx}`);
-      wR.querySelector('.field-error-msg')?.remove();
-      if (!checked) { const e = document.createElement('div'); e.className='field-error-msg'; e.textContent='Selecione uma opção'; wR.appendChild(e); ok = false; }
-    });
   });
 
   return ok;
@@ -400,13 +385,12 @@ document.getElementById('form').addEventListener('submit', async function(e) {
 
   const criterios = [];
   document.querySelectorAll('.criterio-item').forEach(item => {
-    const idx = item.dataset.index;
     const sel = item.querySelector('select[name="criterio-sel"]');
     criterios.push({
       criterio:           sel.value,
       criterio_label:     sel.options[sel.selectedIndex]?.text || '',
-      avaliacao_original: item.querySelector(`input[name="ao-${idx}"]:checked`)?.value || '',
-      avaliacao_sugerida: item.querySelector(`input[name="as-${idx}"]:checked`)?.value || ''
+      avaliacao_original: '',
+      avaliacao_sugerida: ''
     });
   });
 
