@@ -692,9 +692,17 @@
             const analistaNome = analistaEmail.split('.').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
             const supervisor = document.getElementById('supervisor').value;
             
-            const criterios = Array.from(
-                document.querySelectorAll('input[name="criterios"]:checked')
-            ).map(cb => cb.value);
+            // Coletar critérios com debug
+            const checkboxes = Array.from(document.querySelectorAll('input[name="criterios"]:checked'));
+            console.log('Checkboxes encontrados:', checkboxes.length);
+            
+            const criterios = checkboxes.map((cb, index) => {
+                const valor = cb.value;
+                console.log(`Critério ${index}:`, valor);
+                return valor;
+            });
+            
+            console.log('Array final de critérios:', criterios);
             
             const justificativa = document.getElementById('justificativa').value;
             const evidencia = document.getElementById('evidencia').value || null;
@@ -712,6 +720,8 @@
                 status: 'ABERTO',
                 protocolo: protocol
             };
+
+            console.log('Payload enviado:', JSON.stringify(payload, null, 2));
 
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
