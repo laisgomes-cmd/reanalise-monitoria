@@ -469,23 +469,23 @@
                         <div class="criteria-group">
                             <div class="criteria-group-title">📞 Síncronos</div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-sync-1" name="criterios-sync" value="1. Condução - Respondeu a todas as perguntas">
+                                <input type="checkbox" id="crit-sync-1" name="criterios" value="1. Condução - Respondeu a todas as perguntas">
                                 <label for="crit-sync-1">Respondeu a todas as perguntas</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-sync-2" name="criterios-sync" value="2. Condução - Comunicação clara">
+                                <input type="checkbox" id="crit-sync-2" name="criterios" value="2. Condução - Comunicação clara">
                                 <label for="crit-sync-2">Comunicação clara</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-sync-3" name="criterios-sync" value="3. Empatia - Acolhimento">
+                                <input type="checkbox" id="crit-sync-3" name="criterios" value="3. Empatia - Acolhimento">
                                 <label for="crit-sync-3">Acolhimento</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-sync-4" name="criterios-sync" value="4. Empatia - Tratamento humanizado">
+                                <input type="checkbox" id="crit-sync-4" name="criterios" value="4. Empatia - Tratamento humanizado">
                                 <label for="crit-sync-4">Tratamento humanizado</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-sync-5" name="criterios-sync" value="5. Processo - Autoatendimento">
+                                <input type="checkbox" id="crit-sync-5" name="criterios" value="5. Processo - Autoatendimento">
                                 <label for="crit-sync-5">Autoatendimento</label>
                             </div>
                         </div>
@@ -493,23 +493,23 @@
                         <div class="criteria-group">
                             <div class="criteria-group-title">✉️ Assíncronos</div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-async-1" name="criterios-async" value="1. Respondeu a todas as perguntas">
+                                <input type="checkbox" id="crit-async-1" name="criterios" value="1. Respondeu a todas as perguntas">
                                 <label for="crit-async-1">Respondeu a todas as perguntas</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-async-2" name="criterios-async" value="2. Comunicação clara e objetiva">
+                                <input type="checkbox" id="crit-async-2" name="criterios" value="2. Comunicação clara e objetiva">
                                 <label for="crit-async-2">Comunicação clara e objetiva</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-async-3" name="criterios-async" value="3. Acolhimento do cliente">
+                                <input type="checkbox" id="crit-async-3" name="criterios" value="3. Acolhimento do cliente">
                                 <label for="crit-async-3">Acolhimento do cliente</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-async-4" name="criterios-async" value="4. Tratamento humanizado">
+                                <input type="checkbox" id="crit-async-4" name="criterios" value="4. Tratamento humanizado">
                                 <label for="crit-async-4">Tratamento humanizado</label>
                             </div>
                             <div class="criteria-item">
-                                <input type="checkbox" id="crit-async-5" name="criterios-async" value="5. Cumprimento de prazos">
+                                <input type="checkbox" id="crit-async-5" name="criterios" value="5. Cumprimento de prazos">
                                 <label for="crit-async-5">Cumprimento de prazos</label>
                             </div>
                         </div>
@@ -649,7 +649,7 @@
             const justificativa = document.getElementById('justificativa').value.trim();
 
             const criteriosChecked = Array.from(
-                document.querySelectorAll('input[name="criterios-sync"]:checked, input[name="criterios-async"]:checked')
+                document.querySelectorAll('input[name="criterios"]:checked')
             ).map(cb => cb.value);
 
             if (!chamadoId) {
@@ -713,7 +713,7 @@
             const supervisor = document.getElementById('supervisor').value;
             
             const criterios = Array.from(
-                document.querySelectorAll('input[name="criterios-sync"]:checked, input[name="criterios-async"]:checked')
+                document.querySelectorAll('input[name="criterios"]:checked')
             ).map(cb => cb.value);
             
             const justificativa = document.getElementById('justificativa').value;
