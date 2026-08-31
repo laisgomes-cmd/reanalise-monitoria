@@ -1,468 +1,770 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contestação de Monitoria — Turbi</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@900&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --blue: #0D1473;
-    --blue-light: #1620A8;
-    --cyan: #41B6E6;
-    --dark: #06091C;
-    --gray: #6B7280;
-    --gray-light: #F9FAFB;
-    --green: #16A34A;
-    --green-bg: #F0FDF4;
-    --red: #DC2626;
-    --red-bg: #FEF2F2;
-    --border: #E5E7EB;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; background: #F1F5FF; color: #1e1e2e; min-height: 100vh; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contestação de Monitoria — Turbi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  header { background: var(--dark); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.4); }
-  .header-inner { display: flex; align-items: center; gap: 14px; padding: 14px 32px; border-bottom: 3px solid var(--cyan); }
-  .logo-img { height: 32px; width: auto; display: block; font-family: 'Nunito', 'Arial Rounded MT Bold', sans-serif; font-weight: 900; font-size: 26px; color: white; letter-spacing: -0.5px; }
+        :root {
+            --primary: #667eea;
+            --primary-dark: #764ba2;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-light: #e0e0e0;
+            --bg-light: #f9f9f9;
+            --bg-section: #f5f5f5;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
 
-  .hero { background: linear-gradient(135deg, #07094A 0%, var(--blue) 55%, #1620A8 100%); padding: 36px 32px 32px; color: white; text-align: center; }
-  .hero-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 5px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 16px; }
-  .hero h1 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
-  .hero p { font-size: 13px; color: rgba(255,255,255,0.7); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-dark);
+        }
 
-  .form-wrap { max-width: 720px; margin: 28px auto 60px; padding: 0 20px; display: flex; flex-direction: column; gap: 18px; }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
 
-  .block-card { background: white; border-radius: 14px; box-shadow: 0 2px 8px rgba(13,20,115,0.08); overflow: hidden; border: 1.5px solid transparent; }
-  .block-header { display: flex; align-items: center; gap: 12px; padding: 16px 22px 13px; border-bottom: 1px solid var(--border); }
-  .block-num { width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: white; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .block-title { font-size: 13px; font-weight: 900; color: var(--blue); }
-  .block-subtitle { font-size: 11px; color: var(--gray); margin-top: 1px; }
-  .block-body { padding: 20px 22px; display: flex; flex-direction: column; gap: 16px; }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
 
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray); }
-  .field label .req { color: var(--red); margin-left: 2px; }
-  .field input, .field select, .field textarea {
-    width: 100%; padding: 9px 13px; border: 1.5px solid var(--border); border-radius: 9px;
-    font-family: inherit; font-size: 13px; color: #1e1e2e; background: var(--gray-light);
-    transition: border-color 0.2s, box-shadow 0.2s; outline: none;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue); background: white; box-shadow: 0 0 0 3px rgba(13,20,115,0.10); }
-  .field textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
-  .field select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
-  .field-hint { font-size: 11px; color: var(--gray); line-height: 1.5; margin-top: -2px; }
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
 
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field-row.full { grid-template-columns: 1fr; }
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
-  .radio-group { display: flex; gap: 8px; }
-  .radio-option { flex: 1; }
-  .radio-option input[type="radio"] { display: none; }
-  .radio-option label { display: flex; align-items: center; justify-content: center; gap: 5px; padding: 9px 12px; border: 2px solid var(--border); border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--gray); background: var(--gray-light); user-select: none; text-transform: none; letter-spacing: 0; }
-  .radio-option.sim input:checked + label { border-color: var(--green); background: var(--green-bg); color: var(--green); }
-  .radio-option.nao input:checked + label { border-color: var(--red); background: var(--red-bg); color: var(--red); }
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
 
-  .criterio-item { border: 1.5px solid var(--border); border-radius: 9px; padding: 13px 15px; background: var(--gray-light); display: flex; flex-direction: column; gap: 11px; }
-  .criterio-item-header { display: flex; align-items: center; justify-content: space-between; }
-  .criterio-item-num { font-size: 12px; font-weight: 700; color: var(--blue); }
-  .btn-remove-criterio { padding: 3px 10px; font-size: 11px; font-weight: 700; color: var(--red); background: transparent; border: none; cursor: pointer; text-transform: uppercase; }
+        .content {
+            padding: 40px 30px;
+        }
 
-  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 11px 22px; border: none; border-radius: 9px; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: inherit; text-transform: uppercase; letter-spacing: 0.05em; }
-  .btn-primary { background: var(--blue); color: white; }
-  .btn-primary:hover { background: #0A0F5F; }
-  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
-  .aviso-criterio { display: flex; align-items: flex-start; gap: 12px; margin-top: 8px; padding: 14px 16px; background: #FFFBEB; border: 2px solid #F59E0B; border-radius: 10px; }
-  .aviso-criterio .aviso-icon { font-size: 20px; flex-shrink: 0; line-height: 1.3; }
-  .aviso-criterio .aviso-text { font-size: 13px; font-weight: 700; color: #92400E; line-height: 1.5; }
+        .form-section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
 
-  .field.error .field-error-msg { font-size: 11px; color: var(--red); margin-top: 2px; }
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-  #success-card { display: none; background: white; border-radius: 14px; box-shadow: 0 2px 8px rgba(13,20,115,0.08); padding: 28px 22px; text-align: center; max-width: 720px; margin: 28px auto; }
-  #success-card.show { display: block; }
-  .success-icon { font-size: 44px; margin-bottom: 14px; }
-  #success-card h2 { font-size: 17px; color: var(--blue); margin-bottom: 8px; }
-  #success-card p { font-size: 13px; color: var(--gray); margin-bottom: 18px; line-height: 1.6; }
-  #success-meta { text-align: left; background: var(--gray-light); padding: 14px; border-radius: 9px; margin-bottom: 18px; font-size: 12px; line-height: 1.9; color: #1e1e2e; }
-  #success-meta strong { color: var(--blue); }
+        .section-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+            font-size: 16px;
+        }
 
-  #send-error { display: none; margin-top: 10px; padding: 11px 14px; background: var(--red-bg); color: #B91C1C; border-radius: 8px; font-size: 13px; border: 1px solid #FECACA; }
-</style>
+        .section-header div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .required {
+            color: #dc2626;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="url"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="url"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="text"]:disabled,
+        select:disabled {
+            background-color: #f5f5f5;
+            cursor: not-allowed;
+            color: #999;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .criteria-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .criteria-group {
+            padding: 15px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+        }
+
+        .criteria-group-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .criteria-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .criteria-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-top: 2px;
+            flex-shrink: 0;
+            accent-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        .criteria-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+            line-height: 1.4;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        .criteria-item input[type="checkbox"]:checked + label {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .hint-text {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        .attention-box {
+            background: #fef3c7;
+            border-left: 4px solid var(--warning);
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 13px;
+            color: #b45309;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        button {
+            flex: 1;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        button[type="submit"] {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        button[type="reset"] {
+            background: var(--bg-section);
+            color: var(--text-light);
+        }
+
+        button[type="reset"]:hover {
+            background: #e0e0e0;
+        }
+
+        .success-card {
+            display: none;
+            background: #ecfdf5;
+            border: 2px solid var(--success);
+            border-radius: 8px;
+            padding: 30px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .success-card.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .success-card h3 {
+            color: var(--success);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .success-card p {
+            color: var(--text-light);
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .protocol-number {
+            background: var(--success);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #dc2626;
+            padding: 12px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            font-size: 13px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading.show {
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">turbi</div>
+            <h1>📋 Reanálise de Qualidade</h1>
+            <p>Contestação de Monitoria</p>
+        </div>
 
-<header>
-  <div class="header-inner">
-    <svg class="logo-img" viewBox="0 0 110 36" xmlns="http://www.w3.org/2000/svg" aria-label="turbi">
-      <text y="30" font-family="'Nunito', 'Arial Rounded MT Bold', 'Trebuchet MS', sans-serif" font-weight="900" font-size="34" fill="white" letter-spacing="-0.5">turbi</text>
-    </svg>
-  </div>
-</header>
+        <div class="content">
+            <p style="color: var(--text-light); margin-bottom: 30px; line-height: 1.6;">
+                Registre sua contestação de reanálise. Os dados são salvos diretamente na planilha de controle.
+            </p>
 
-<section class="hero">
-  <div class="hero-badge">📋 Reanálise de Qualidade</div>
-  <h1>Contestação de Monitoria</h1>
-  <p>Registre sua contestação de reanálise. Os dados são salvos diretamente na planilha de controle.</p>
-</section>
+            <div class="error-message" id="error-message"></div>
+            <div class="loading" id="loading"><div class="spinner"></div><p>Enviando reanálise...</p></div>
 
-<form id="form" class="form-wrap">
+            <form id="contestation-form">
+                <!-- SEÇÃO 1: IDENTIFICAÇÃO DO CHAMADO -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">1</div>
+                        <div>
+                            <h2 class="section-title">Identificação do Chamado</h2>
+                            <p class="section-subtitle">Informações básicas da reanálise</p>
+                        </div>
+                    </div>
 
-  <!-- BLOCO 1 -->
-  <div class="block-card">
-    <div class="block-header">
-      <div class="block-num">1</div>
-      <div><div class="block-title">Identificação do Chamado</div><div class="block-subtitle">Informações básicas da reanálise</div></div>
+                    <div class="form-group">
+                        <label for="chamado-id">ID do Chamado <span class="required">*</span></label>
+                        <input type="text" id="chamado-id" name="chamado-id" placeholder="ex: 500U500000nGfg6IAC" required>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 2: RESPONSÁVEIS -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">2</div>
+                        <div>
+                            <h2 class="section-title">Responsáveis</h2>
+                            <p class="section-subtitle">Analista e supervisor da contestação</p>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="analista-email">Analista Responsável <span class="required">*</span></label>
+                            <select id="analista-email" name="analista-email" required>
+                                <option value="">— Selecione um analista —</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="supervisor">Supervisor da Contestação</label>
+                            <input type="text" id="supervisor" name="supervisor" readonly placeholder="Preenchido automaticamente">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 3: CRITÉRIOS CONTESTADOS -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">3</div>
+                        <div>
+                            <h2 class="section-title">Critérios Contestados</h2>
+                            <p class="section-subtitle">Selecione os critérios de desacordo</p>
+                        </div>
+                    </div>
+
+                    <div class="criteria-container">
+                        <div class="criteria-group">
+                            <div class="criteria-group-title">📞 Síncronos</div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-sync-1" name="criterios-sync" value="1. Condução - Respondeu a todas as perguntas">
+                                <label for="crit-sync-1">Respondeu a todas as perguntas</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-sync-2" name="criterios-sync" value="2. Condução - Comunicação clara">
+                                <label for="crit-sync-2">Comunicação clara</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-sync-3" name="criterios-sync" value="3. Empatia - Acolhimento">
+                                <label for="crit-sync-3">Acolhimento</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-sync-4" name="criterios-sync" value="4. Empatia - Tratamento humanizado">
+                                <label for="crit-sync-4">Tratamento humanizado</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-sync-5" name="criterios-sync" value="5. Processo - Autoatendimento">
+                                <label for="crit-sync-5">Autoatendimento</label>
+                            </div>
+                        </div>
+
+                        <div class="criteria-group">
+                            <div class="criteria-group-title">✉️ Assíncronos</div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-async-1" name="criterios-async" value="1. Respondeu a todas as perguntas">
+                                <label for="crit-async-1">Respondeu a todas as perguntas</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-async-2" name="criterios-async" value="2. Comunicação clara e objetiva">
+                                <label for="crit-async-2">Comunicação clara e objetiva</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-async-3" name="criterios-async" value="3. Acolhimento do cliente">
+                                <label for="crit-async-3">Acolhimento do cliente</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-async-4" name="criterios-async" value="4. Tratamento humanizado">
+                                <label for="crit-async-4">Tratamento humanizado</label>
+                            </div>
+                            <div class="criteria-item">
+                                <input type="checkbox" id="crit-async-5" name="criterios-async" value="5. Cumprimento de prazos">
+                                <label for="crit-async-5">Cumprimento de prazos</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="attention-box">
+                        ⚠️ Atenção! Se tiver mais critérios para contestar, seguir com uma nova abertura de contestação.
+                    </div>
+                </div>
+
+                <!-- SEÇÃO 4: JUSTIFICATIVA E EVIDÊNCIAS -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <div class="section-number">4</div>
+                        <div>
+                            <h2 class="section-title">Justificativa e Evidências</h2>
+                            <p class="section-subtitle">Explique sua posição com detalhes</p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="justificativa">Justificativa Detalhada <span class="required">*</span></label>
+                        <textarea id="justificativa" name="justificativa" placeholder="Detalhe por que você discorda da avaliação..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evidencia">Link de Evidências (opcional)</label>
+                        <input type="url" id="evidencia" name="evidencia" placeholder="ex: https://docs.google.com/spreadsheets/d/...">
+                        <div class="hint-text">Gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
+                    </div>
+                </div>
+
+                <!-- BOTÕES -->
+                <div class="button-group">
+                    <button type="submit">Registrar Reanálise</button>
+                    <button type="reset">Nova Reanálise</button>
+                </div>
+
+                <!-- CARD DE SUCESSO -->
+                <div class="success-card" id="success-card">
+                    <div class="success-icon">✅</div>
+                    <h3>Reanálise Registrada com Sucesso!</h3>
+                    <p>Sua contestação foi salva na planilha de controle. Um supervisor entrará em contato em breve.</p>
+                    <div class="protocol-number" id="protocol-number"></div>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="block-body">
-      <div class="field field-row full" id="field-chamado-id">
-        <label>ID do Chamado <span class="req">*</span></label>
-        <input type="text" id="chamado-id" placeholder="ex: CHAT-123456" required>
-      </div>
-    </div>
-  </div>
 
-  <!-- BLOCO 2 -->
-  <div class="block-card">
-    <div class="block-header">
-      <div class="block-num">2</div>
-      <div><div class="block-title">Responsáveis</div><div class="block-subtitle">Analista e supervisor da contestação</div></div>
-    </div>
-    <div class="block-body">
-      <div class="field" id="field-analista">
-        <label>Analista Responsável <span class="req">*</span></label>
-        <select id="analista" required onchange="atualizarSupervisor()">
-          <option value="">— Selecione um analista —</option>
-        </select>
-      </div>
-      <div class="field" id="field-supervisor">
-        <label>Supervisor da Contestação</label>
-        <input type="text" id="supervisor" placeholder="Preenchido automaticamente" readonly>
-      </div>
-    </div>
-  </div>
+    <script>
+        // ============================================
+        // MAPEAMENTO ANALISTAS → SUPERVISORES
+        // ============================================
+        const analistas = {
+            "carlos.oliveira@turbi.com.br": "LUCINEIA BIANCHI",
+            "bruna.cornelio@turbi.com.br": "DEBORAH CARVALHO",
+            "edinaldo.bento@turbi.com.br": "LARISSA CARVALHO",
+            "jario.carvalho@turbi.com.br": "LARISSA CARVALHO",
+            "luana.capaccioli@turbi.com.br": "LARISSA CARVALHO",
+            "roberson.pereira@turbi.com.br": "LUCINEIA BIANCHI",
+            "karina.lico@turbi.com.br": "CAROLINE SILVA",
+            "leticia.marques@turbi.com.br": "DEBORAH CARVALHO",
+            "haylla.rodrigues@turbi.com.br": "LARISSA CARVALHO",
+            "monique.santos@turbi.com.br": "LARISSA CARVALHO",
+            "gabriela.oliveira@turbi.com.br": "LARISSA CARVALHO",
+            "evandro.aparecido@turbi.com.br": "LARISSA CARVALHO",
+            "vitoria.santos@turbi.com.br": "LUCINEIA BIANCHI",
+            "hugo.cruz@turbi.com.br": "LUCINEIA BIANCHI",
+            "estelita.santos@turbi.com.br": "LUCINEIA BIANCHI",
+            "luccas.ramos@turbi.com.br": "LUCINEIA BIANCHI",
+            "erica.conceicao@turbi.com.br": "LUCINEIA BIANCHI",
+            "caio.aurelio@turbi.com.br": "LUCINEIA BIANCHI",
+            "jose.carlos@turbi.com.br": "CAROLINE SILVA",
+            "thiago.souza@turbi.com.br": "CAROLINE SILVA",
+            "elisabete.oliva@turbi.com.br": "CAROLINE SILVA",
+            "gabriel.carvalho@turbi.com.br": "LUCINEIA BIANCHI",
+            "pamela.oliveira@turbi.com.br": "CAROLINE SILVA",
+            "everton.oliveira@turbi.com.br": "LUCINEIA BIANCHI",
+            "leticia.franca@turbi.com.br": "LUCINEIA BIANCHI",
+            "victor.souza@turbi.com.br": "CAROLINE SILVA",
+            "giulia.campos@turbi.com.br": "LUCINEIA BIANCHI",
+            "monyse.rosa@turbi.com.br": "LARISSA CARVALHO",
+            "erika.carvalho@turbi.com.br": "CAROLINE SILVA",
+            "veronica.novaes@turbi.com.br": "LARISSA CARVALHO",
+            "carlos.conceicao@turbi.com.br": "LUCINEIA BIANCHI",
+            "nathalia.montagneiro@turbi.com.br": "LUCINEIA BIANCHI",
+            "rodrigo.rocha@turbi.com.br": "CAROLINE SILVA",
+            "thais.nunes@turbi.com.br": "LARISSA CARVALHO",
+            "vinicius.reis@turbi.com.br": "LUCINEIA BIANCHI",
+            "janete.bassi@turbi.com.br": "LUCINEIA BIANCHI",
+            "lucas.steves@turbi.com.br": "LUCINEIA BIANCHI",
+            "fabricio.pimenta@turbi.com.br": "CAROLINE SILVA",
+            "joao.rialto@turbi.com.br": "CAROLINE SILVA",
+            "lucas.giuseppe@turbi.com.br": "LARISSA CARVALHO",
+            "gabriela.alves@turbi.com.br": "CAROLINE SILVA",
+            "ayanni.rodrigues@turbi.com.br": "LUCINEIA BIANCHI",
+            "nicole.soares@turbi.com.br": "LUCINEIA BIANCHI",
+            "gislaine.gama@turbi.com.br": "LARISSA CARVALHO",
+            "dalton.nascimento@turbi.com.br": "LARISSA CARVALHO"
+        };
 
-  <!-- BLOCO 3 -->
-  <div class="block-card">
-    <div class="block-header">
-      <div class="block-num">3</div>
-      <div><div class="block-title">Critérios Contestados</div><div class="block-subtitle">Selecione os critérios de desacordo</div></div>
-    </div>
-    <div class="block-body">
-      <div id="criterios-container"></div>
-      <div class="aviso-criterio">
-        <span class="aviso-icon">⚠️</span>
-        <span class="aviso-text">Atenção! Se tiver mais critérios para contestar, seguir com uma nova abertura de contestação.</span>
-      </div>
-    </div>
-  </div>
+        // ============================================
+        // CONFIGURAÇÕES
+        // ============================================
+        const SHEET_ID = '1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804';
+        const APPS_SCRIPT_URL = 'https://script.google.com/a/macros/turbi.com.br/s/AKfycbxgJ5Rl0g2qpKIB1uSo5zFt7YKHyseOxfWjx7Z5vz4ph0B7S9ruH4JSz59ai8MX5hI/exec';
 
-  <!-- BLOCO 4 -->
-  <div class="block-card">
-    <div class="block-header">
-      <div class="block-num">4</div>
-      <div><div class="block-title">Justificativa e Evidências</div><div class="block-subtitle">Explique sua posição com detalhes</div></div>
-    </div>
-    <div class="block-body">
-      <div class="field field-row full" id="field-justificativa">
-        <label>Justificativa Detalhada <span class="req">*</span></label>
-        <textarea id="justificativa" placeholder="Descreva por que discorda da avaliação original. Seja específico e cite evidências." required></textarea>
-      </div>
-      <div class="field field-row full">
-        <label>Link de Evidências (opcional)</label>
-        <input type="url" id="evidencia" placeholder="https://exemplo.com/evidencia">
-        <div class="field-hint">Gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
-      </div>
-    </div>
-  </div>
+        // ============================================
+        // INICIALIZAR DROPDOWN DE ANALISTAS
+        // ============================================
+        function initializeAnalistas() {
+            const select = document.getElementById('analista-email');
+            const sortedEmails = Object.keys(analistas).sort();
 
-  <div>
-    <button type="submit" id="btn-submit" class="btn btn-primary">Registrar Reanálise</button>
-    <div id="send-error"></div>
-  </div>
+            sortedEmails.forEach(email => {
+                const option = document.createElement('option');
+                option.value = email;
+                option.textContent = email;
+                select.appendChild(option);
+            });
+        }
 
-</form>
+        // ============================================
+        // ATUALIZAR SUPERVISOR
+        // ============================================
+        document.getElementById('analista-email').addEventListener('change', function() {
+            const supervisor = analistas[this.value] || '';
+            document.getElementById('supervisor').value = supervisor;
+        });
 
-<!-- SUCESSO -->
-<div id="success-card">
-  <div class="success-icon">✅</div>
-  <h2>Reanálise Registrada com Sucesso!</h2>
-  <p>Sua contestação foi salva na planilha de controle. Um supervisor entrará em contato em breve.</p>
-  <div id="success-meta"></div>
-  <button type="button" class="btn btn-primary" onclick="novaCont()">Nova Reanálise</button>
-</div>
+        // ============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // ============================================
+        function validate() {
+            const chamadoId = document.getElementById('chamado-id').value.trim();
+            const analistaEmail = document.getElementById('analista-email').value.trim();
+            const justificativa = document.getElementById('justificativa').value.trim();
 
-<script>
-// ─── CONFIGURAÇÃO ─────────────────────────────────────────────────────────────
-// URL do Apps Script implantado como Web App
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8taWSXa-xN3ot_jkaBCeQvjA5jiicRiHtmyiMw_yyixdoa8TJCYc4icVRXot9VGNCIg/exec';
+            const criteriosChecked = Array.from(
+                document.querySelectorAll('input[name="criterios-sync"]:checked, input[name="criterios-async"]:checked')
+            ).map(cb => cb.value);
 
-// ─── DADOS ───────────────────────────────────────────────────────────────────
-const analistaMap = {
-  "carlos.oliveira@turbi.com.br":       { nome: "Carlos Oliveira",       supervisor: "Barbara Toledo" },
-  "barbara.olimpio@turbi.com.br":       { nome: "Barbara Olimpio",       supervisor: "Alexandre Checozzi" },
-  "bruna.cornelio@turbi.com.br":        { nome: "Bruna Cornelio",        supervisor: "Deborah Carvalho" },
-  "danielle.salve@turbi.com.br":        { nome: "Danielle Salve",        supervisor: "Alessandra Gregatti" },
-  "dayane.oliveira@turbi.com.br":       { nome: "Dayane Oliveira",       supervisor: "" },
-  "edinaldo.bento@turbi.com.br":        { nome: "Edinaldo Bento",        supervisor: "Dayane Oliveira" },
-  "jessica.gil@turbi.com.br":           { nome: "Jessica Gil",           supervisor: "Deborah Carvalho" },
-  "ketelyn.pereira@turbi.com.br":       { nome: "Ketelyn Pereira",       supervisor: "Deborah Carvalho" },
-  "leonardo.arantes@turbi.com.br":      { nome: "Leonardo Arantes",      supervisor: "Alexandre Checozzi" },
-  "melissa.sousa@turbi.com.br":         { nome: "Melissa Sousa",         supervisor: "Deborah Carvalho" },
-  "matheus.mendes@turbi.com.br":        { nome: "Matheus Mendes",        supervisor: "Dayane Oliveira" },
-  "nubia.machado@turbi.com.br":         { nome: "Nubia Machado",         supervisor: "Alessandra Gregatti" },
-  "larissa.carvalho@turbi.com.br":      { nome: "Larissa Carvalho",      supervisor: "Barbara Toledo" },
-  "suellen.souza@turbi.com.br":         { nome: "Suellen Souza",         supervisor: "Deborah Carvalho" },
-  "jario.carvalho@turbi.com.br":        { nome: "Jario Carvalho",        supervisor: "Dayane Oliveira" },
-  "luana.capaccioli@turbi.com.br":      { nome: "Luana Capaccioli",      supervisor: "Dayane Oliveira" },
-  "roberson.pereira@turbi.com.br":      { nome: "Roberson Pereira",      supervisor: "Barbara Toledo" },
-  "luanna.albertini@turbi.com.br":      { nome: "Luanna Albertini",      supervisor: "Dayane Oliveira" },
-  "carolina.slepicka@turbi.com.br":     { nome: "Carolina Slepicka",     supervisor: "Deborah Carvalho" },
-  "karina.lico@turbi.com.br":           { nome: "Karina Lico",           supervisor: "Dayane Oliveira" },
-  "junior.almeida@turbi.com.br":        { nome: "Junior Almeida",        supervisor: "Dayane Oliveira" },
-  "leticia.marques@turbi.com.br":       { nome: "Leticia Marques",       supervisor: "Barbara Toledo" },
-  "haylla.rodrigues@turbi.com.br":      { nome: "Haylla Rodrigues",      supervisor: "Dayane Oliveira" },
-  "monique.santos@turbi.com.br":        { nome: "Monique Santos",        supervisor: "Dayane Oliveira" },
-  "gabriela.oliveira@turbi.com.br":     { nome: "Gabriela Oliveira",     supervisor: "Dayane Oliveira" },
-  "nancy.tavares@turbi.com.br":         { nome: "Nancy Camara",          supervisor: "Deborah Carvalho" },
-  "evandro.aparecido@turbi.com.br":     { nome: "Evandro Aparecido",     supervisor: "Dayane Oliveira" },
-  "vitoria.santos@turbi.com.br":        { nome: "Vitoria Santos",        supervisor: "Barbara Toledo" },
-  "hugo.cruz@turbi.com.br":             { nome: "Hugo Cruz",             supervisor: "Barbara Toledo" },
-  "estelita.santos@turbi.com.br":       { nome: "Estelita Santos",       supervisor: "Dayane Oliveira" },
-  "luccas.ramos@turbi.com.br":          { nome: "Luccas Ramos",          supervisor: "Dayane Oliveira" },
-  "erica.conceicao@turbi.com.br":       { nome: "Erica Conceicao",       supervisor: "Barbara Toledo" },
-  "maria.isabel@turbi.com.br":          { nome: "Maria Isabel",          supervisor: "Barbara Toledo" },
-  "caio.aurelio@turbi.com.br":          { nome: "Caio Aurelio",          supervisor: "Lucineia Bianchi" },
-  "vitor.santos@turbi.com.br":          { nome: "Vitor Santos",          supervisor: "Dayane Oliveira" },
-  "jose.carlos@turbi.com.br":           { nome: "Jose Carlos",           supervisor: "Dayane Oliveira" },
-  "thiago.souza@turbi.com.br":          { nome: "Thiago Souza",          supervisor: "Lucineia Bianchi" },
-  "elisabete.oliva@turbi.com.br":       { nome: "Elisabete Oliva",       supervisor: "Lucineia Bianchi" },
-  "suelen.silva@turbi.com.br":          { nome: "Suelen Silva",          supervisor: "Dayane Oliveira" },
-  "gabriel.carvalho@turbi.com.br":      { nome: "Gabriel Carvalho",      supervisor: "Dayane Oliveira" },
-  "pamela.oliveira@turbi.com.br":       { nome: "Pamela Oliveira",       supervisor: "Lucineia Bianchi" },
-  "everton.oliveira@turbi.com.br":      { nome: "Everton Oliveira",      supervisor: "Lucineia Bianchi" },
-  "leticia.franca@turbi.com.br":        { nome: "Letícia Franca",        supervisor: "Lucineia Bianchi" },
-  "victor.souza@turbi.com.br":          { nome: "Victor Souza",          supervisor: "Dayane Oliveira" },
-  "giulia.campos@turbi.com.br":         { nome: "Giulia Campos",         supervisor: "Dayane Oliveira" },
-  "schuster.silva@turbi.com.br":        { nome: "Schuster da Silva",     supervisor: "Alessandra Gregatti" },
-  "monyse.rosa@turbi.com.br":           { nome: "Monyse Rosa",           supervisor: "Lucineia Bianchi" },
-  "erika.carvalho@turbi.com.br":        { nome: "Erika Carvalho",        supervisor: "Lucineia Bianchi" },
-  "veronica.novaes@turbi.com.br":       { nome: "Veronica Novaes",       supervisor: "Dayane Oliveira" },
-  "aurora.souza@turbi.com.br":          { nome: "Aurora Souza",          supervisor: "Dayane Oliveira" },
-  "carlos.conceicao@turbi.com.br":      { nome: "Carlos Conceição",      supervisor: "Dayane Oliveira" },
-  "nathalia.montagneiro@turbi.com.br":  { nome: "Nathália Montagneiro",  supervisor: "Lucineia Bianchi" },
-  "rodrigo.rocha@turbi.com.br":         { nome: "Rodrigo Rocha",         supervisor: "Lucineia Bianchi" },
-  "thais.nunes@turbi.com.br":           { nome: "Thais Nunes",           supervisor: "Dayane Oliveira" },
-  "vinicius.reis@turbi.com.br":         { nome: "Vinícius Reis",         supervisor: "Dayane Oliveira" },
-  "janete.bassi@turbi.com.br":          { nome: "Janete Bassi",          supervisor: "Dayane Oliveira" },
-  "lucas.steves@turbi.com.br":          { nome: "Lucas Steves",          supervisor: "Dayane Oliveira" },
-  "fabricio.pimenta@turbi.com.br":      { nome: "Fabricio Pimenta",      supervisor: "Lucineia Bianchi" },
-  "joao.rialto@turbi.com.br":           { nome: "João Rialto",           supervisor: "Lucineia Bianchi" },
-  "lucas.giuseppe@turbi.com.br":        { nome: "Lucas Giuseppe",        supervisor: "Dayane Oliveira" },
-  "gabriela.alves@turbi.com.br":        { nome: "Gabriela Alves",        supervisor: "Dayane Oliveira" },
-  "ayanni.rodrigues@turbi.com.br":      { nome: "Ayanni Rodrigues",      supervisor: "Dayane Oliveira" },
-  "nicole.soares@turbi.com.br":         { nome: "Nicole Soares",         supervisor: "Dayane Oliveira" }
-};
+            if (!chamadoId) {
+                showError('Por favor, preencha o ID do Chamado');
+                return false;
+            }
 
-const CRITERIOS = [
-  { id: 'comunicacao_clara',      label: 'Condução - Comunicação clara' },
-  { id: 'respondeu_perguntas',    label: 'Condução - Respondeu a todas as perguntas' },
-  { id: 'autoatendimento',        label: 'Processo - Autoatendimento' },
-  { id: 'encerramento_abrupto',   label: 'Comportamento - Encerrou atendimento de forma abrupta' },
-  { id: 'descaso_frieza',         label: 'Comportamento - Descaso/Frieza' },
-  { id: 'dados_pessoais',         label: 'Compliance - Dados pessoais' }
-];
+            if (!analistaEmail) {
+                showError('Por favor, selecione um analista');
+                return false;
+            }
 
-let criterioCounter = 0;
+            if (!criteriosChecked || criteriosChecked.length === 0) {
+                showError('Por favor, selecione pelo menos um critério');
+                return false;
+            }
 
-// ─── ANALISTAS ────────────────────────────────────────────────────────────────
-function preencherSelectAnalista() {
-  const select = document.getElementById('analista');
-  Object.keys(analistaMap)
-    .sort((a, b) => analistaMap[a].nome.localeCompare(analistaMap[b].nome))
-    .forEach(email => {
-      const opt = document.createElement('option');
-      opt.value = email;
-      opt.textContent = analistaMap[email].nome;
-      select.appendChild(opt);
-    });
-}
+            if (!justificativa) {
+                showError('Por favor, preencha a justificativa da contestação');
+                return false;
+            }
 
-function atualizarSupervisor() {
-  const email = document.getElementById('analista').value;
-  document.getElementById('supervisor').value =
-    (email && analistaMap[email]) ? (analistaMap[email].supervisor || '') : '';
-}
+            return true;
+        }
 
-// ─── CRITÉRIOS DINÂMICOS ──────────────────────────────────────────────────────
-function addCriterio() {
-  criterioCounter++;
-  const idx = criterioCounter;
-  const div = document.createElement('div');
-  div.className = 'criterio-item';
-  div.dataset.index = idx;
-  div.innerHTML = `
-    <div class="criterio-item-header">
-      <div class="criterio-item-num">Critério ${idx}</div>
-      <button type="button" class="btn-remove-criterio" onclick="removeCriterio(this)">✕ Remover</button>
-    </div>
-    <div class="field" id="fc-${idx}">
-      <label>Selecione o Critério <span class="req">*</span></label>
-      <select name="criterio-sel" required>
-        <option value="">— Selecione —</option>
-        ${CRITERIOS.map(c => `<option value="${c.id}">${c.label}</option>`).join('')}
-      </select>
-    </div>`;
-  document.getElementById('criterios-container').appendChild(div);
-  atualizarBotoesRemover();
-}
+        // ============================================
+        // EXIBIR ERRO
+        // ============================================
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.classList.add('show');
+            setTimeout(() => errorDiv.classList.remove('show'), 5000);
+        }
 
-function removeCriterio(btn) {
-  btn.closest('.criterio-item').remove();
-  renumerarCriterios();
-  atualizarBotoesRemover();
-}
+        // ============================================
+        // GERAR PROTOCOLO
+        // ============================================
+        function generateProtocol() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+            return `TURBI-${timestamp}-${random}`;
+        }
 
-function renumerarCriterios() {
-  document.querySelectorAll('.criterio-item').forEach((item, i) => {
-    item.querySelector('.criterio-item-num').textContent = `Critério ${i + 1}`;
-  });
-}
+        // ============================================
+        // ENVIAR FORMULÁRIO
+        // ============================================
+        document.getElementById('contestation-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
 
-function atualizarBotoesRemover() {
-  const items = document.querySelectorAll('.criterio-item');
-  items.forEach(item => {
-    item.querySelector('.btn-remove-criterio').style.display =
-      items.length > 1 ? '' : 'none';
-  });
-}
+            if (!validate()) return;
 
-// ─── VALIDAÇÃO ────────────────────────────────────────────────────────────────
-function validate() {
-  let ok = true;
-  [
-    { id: 'chamado-id',    fId: 'field-chamado-id' },
-    { id: 'analista',      fId: 'field-analista' },
-    { id: 'justificativa', fId: 'field-justificativa' },
-  ].forEach(f => {
-    const el = document.getElementById(f.id);
-    const wrap = document.getElementById(f.fId);
-    wrap.querySelector('.field-error-msg')?.remove();
-    if (!el?.value.trim()) {
-      const e = document.createElement('div');
-      e.className = 'field-error-msg';
-      e.textContent = 'Campo obrigatório';
-      wrap.appendChild(e);
-      ok = false;
-    }
-  });
+            const loading = document.getElementById('loading');
+            const successCard = document.getElementById('success-card');
 
-  document.querySelectorAll('.criterio-item').forEach(item => {
-    const idx = item.dataset.index;
-    const sel = item.querySelector('select[name="criterio-sel"]');
-    const wSel = item.querySelector(`#fc-${idx}`);
-    wSel.querySelector('.field-error-msg')?.remove();
-    if (!sel?.value) { const e = document.createElement('div'); e.className='field-error-msg'; e.textContent='Selecione o critério'; wSel.appendChild(e); ok = false; }
-  });
+            loading.classList.add('show');
 
-  return ok;
-}
+            const chamadoId = document.getElementById('chamado-id').value;
+            const analistaEmail = document.getElementById('analista-email').value;
+            const analistaNome = analistaEmail.split('.').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            const supervisor = document.getElementById('supervisor').value;
+            
+            const criterios = Array.from(
+                document.querySelectorAll('input[name="criterios-sync"]:checked, input[name="criterios-async"]:checked')
+            ).map(cb => cb.value);
+            
+            const justificativa = document.getElementById('justificativa').value;
+            const evidencia = document.getElementById('evidencia').value || null;
+            const protocol = generateProtocol();
 
-// ─── SUBMISSÃO ────────────────────────────────────────────────────────────────
-document.getElementById('form').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  if (!validate()) {
-    document.querySelector('.field-error-msg')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
+            const payload = {
+                timestamp: new Date().toISOString(),
+                chamado_id: chamadoId,
+                analista_email: analistaEmail,
+                analista_nome: analistaNome,
+                supervisor: supervisor,
+                criterios: criterios,
+                justificativa: justificativa,
+                evidencia: evidencia,
+                status: 'ABERTO',
+                protocolo: protocol
+            };
 
-  const btn = document.getElementById('btn-submit');
-  btn.disabled = true;
-  btn.textContent = 'Enviando...';
-  document.getElementById('send-error').style.display = 'none';
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
 
-  const email = document.getElementById('analista').value;
+                loading.classList.remove('show');
 
-  const criterios = [];
-  document.querySelectorAll('.criterio-item').forEach(item => {
-    const sel = item.querySelector('select[name="criterio-sel"]');
-    criterios.push({
-      criterio:           sel.value,
-      criterio_label:     sel.options[sel.selectedIndex]?.text || '',
-      avaliacao_original: '',
-      avaliacao_sugerida: ''
-    });
-  });
+                document.getElementById('protocol-number').textContent = `Protocolo: ${protocol}`;
+                successCard.classList.add('show');
 
-  const payload = {
-    timestamp:      new Date().toISOString(),
-    chamado_id:     document.getElementById('chamado-id').value.trim(),
-    analista_email: email,
-    analista_nome:  analistaMap[email]?.nome || '',
-    supervisor:     document.getElementById('supervisor').value,
-    criterios,
-    justificativa:  document.getElementById('justificativa').value.trim(),
-    evidencia:      document.getElementById('evidencia').value.trim() || null,
-    status:         'ABERTO'
-  };
+                setTimeout(() => {
+                    this.reset();
+                    document.getElementById('supervisor').value = '';
+                    successCard.classList.remove('show');
+                }, 3000);
 
-  // ─────────────────────────────────────────────────────────────────────────────
-  // ENVIO VIA GET com ?data=JSON
-  //
-  // Por que GET e não POST?
-  // O Apps Script redireciona requisições POST (302), e o redirect converte
-  // POST → GET, fazendo o doPost nunca ser chamado. Com GET isso não acontece:
-  // o redirect mantém GET e o doGet recebe os parâmetros corretamente.
-  //
-  // Por que mode: 'no-cors'?
-  // O Apps Script não inclui cabeçalhos CORS na resposta para scripts externos.
-  // Com no-cors o browser faz a requisição normalmente (dados chegam ao servidor)
-  // mas retorna uma resposta opaca (sem corpo legível). Isso é suficiente — o
-  // Apps Script grava na planilha independentemente de lermos a resposta.
-  // ─────────────────────────────────────────────────────────────────────────────
-  try {
-    const url = APPS_SCRIPT_URL + '?data=' + encodeURIComponent(JSON.stringify(payload));
-    await fetch(url, { method: 'GET', mode: 'no-cors' });
-    mostrarSucesso(payload, criterios);
-  } catch (err) {
-    // Erros de rede (offline, DNS, etc.)
-    document.getElementById('send-error').textContent =
-      '⚠️ Erro de conexão: verifique sua internet e tente novamente. (' + err.message + ')';
-    document.getElementById('send-error').style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = 'Registrar Reanálise';
-  }
-});
+            } catch (error) {
+                loading.classList.remove('show');
+                showError('Erro ao enviar. Verifique sua conexão e tente novamente.');
+                console.error('Erro:', error);
+            }
+        });
 
-function mostrarSucesso(payload, criterios) {
-  document.getElementById('form').style.display = 'none';
-  document.getElementById('success-card').classList.add('show');
-  document.getElementById('success-meta').innerHTML =
-    `<strong>Chamado:</strong> ${payload.chamado_id}<br>` +
-    `<strong>Analista:</strong> ${payload.analista_nome}<br>` +
-    `<strong>Critério(s):</strong> ${criterios.map(c => c.criterio_label).join(', ')}<br>` +
-    `<strong>Supervisor:</strong> ${payload.supervisor}<br>` +
-    `<strong>Protocolo:</strong> CONT-${Date.now()}`;
-}
-
-function novaCont() {
-  document.getElementById('form').reset();
-  document.getElementById('supervisor').value = '';
-  document.querySelectorAll('.field-error-msg').forEach(m => m.remove());
-  document.getElementById('criterios-container').innerHTML = '';
-  criterioCounter = 0;
-  addCriterio();
-  document.getElementById('form').style.display = '';
-  document.getElementById('success-card').classList.remove('show');
-  document.getElementById('btn-submit').disabled = false;
-  document.getElementById('btn-submit').textContent = 'Registrar Reanálise';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  preencherSelectAnalista();
-  addCriterio();
-});
-</script>
+        // ============================================
+        // INICIALIZAR
+        // ============================================
+        initializeAnalistas();
+    </script>
 </body>
 </html>
