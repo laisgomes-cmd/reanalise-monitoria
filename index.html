@@ -18,13 +18,12 @@
             --text-light: #666;
             --border-light: #e0e0e0;
             --bg-light: #f9f9f9;
-            --bg-section: #f5f5f5;
             --success: #10b981;
             --warning: #f59e0b;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
@@ -63,11 +62,16 @@
         .header p {
             font-size: 16px;
             opacity: 0.95;
-            line-height: 1.5;
         }
 
         .content {
             padding: 40px 30px;
+        }
+
+        .intro-text {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            line-height: 1.6;
         }
 
         .form-section {
@@ -95,7 +99,6 @@
             justify-content: center;
             font-weight: bold;
             margin-right: 15px;
-            flex-shrink: 0;
             font-size: 16px;
         }
 
@@ -107,7 +110,6 @@
         .section-title {
             font-size: 18px;
             font-weight: 600;
-            color: var(--text-dark);
             margin: 0;
         }
 
@@ -119,10 +121,6 @@
 
         .form-group {
             margin-bottom: 20px;
-        }
-
-        .form-group:last-child {
-            margin-bottom: 0;
         }
 
         label {
@@ -138,8 +136,6 @@
         }
 
         input[type="text"],
-        input[type="email"],
-        input[type="url"],
         select,
         textarea {
             width: 100%;
@@ -148,13 +144,10 @@
             border-radius: 6px;
             font-size: 14px;
             font-family: inherit;
-            transition: border-color 0.3s, box-shadow 0.3s;
-            background: white;
+            transition: border-color 0.3s;
         }
 
         input[type="text"]:focus,
-        input[type="email"]:focus,
-        input[type="url"]:focus,
         select:focus,
         textarea:focus {
             outline: none;
@@ -174,77 +167,31 @@
             min-height: 100px;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .criteria-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .criteria-group {
-            padding: 15px;
-            background: white;
-            border-radius: 6px;
-            border: 1px solid var(--border-light);
-        }
-
-        .criteria-group-title {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            letter-spacing: 0.5px;
-        }
-
-        .criteria-item {
-            margin-bottom: 12px;
+        .checkbox-group {
             display: flex;
-            align-items: flex-start;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .criteria-item input[type="checkbox"] {
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
             width: 18px;
             height: 18px;
             cursor: pointer;
-            margin-right: 10px;
-            margin-top: 2px;
             flex-shrink: 0;
             accent-color: var(--primary);
-            border-radius: 3px;
         }
 
-        .criteria-item label {
+        .checkbox-item label {
             margin: 0;
             cursor: pointer;
-            font-size: 13px;
-            line-height: 1.4;
-            color: var(--text-light);
             font-weight: 400;
-        }
-
-        .criteria-item input[type="checkbox"]:checked + label {
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-
-        .hint-text {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 6px;
-            font-style: italic;
+            font-size: 14px;
         }
 
         .attention-box {
@@ -275,7 +222,6 @@
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         button[type="submit"] {
@@ -288,17 +234,13 @@
             box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        button[type="submit"]:active {
-            transform: translateY(0);
-        }
-
         button[type="reset"] {
-            background: var(--bg-section);
+            background: #e0e0e0;
             color: var(--text-light);
         }
 
         button[type="reset"]:hover {
-            background: #e0e0e0;
+            background: #d0d0d0;
         }
 
         .success-card {
@@ -309,11 +251,11 @@
             padding: 30px;
             margin-top: 30px;
             text-align: center;
+            animation: slideIn 0.3s ease-out;
         }
 
         .success-card.show {
             display: block;
-            animation: slideIn 0.3s ease-out;
         }
 
         @keyframes slideIn {
@@ -335,14 +277,6 @@
         .success-card h3 {
             color: var(--success);
             margin-bottom: 10px;
-            font-size: 18px;
-        }
-
-        .success-card p {
-            color: var(--text-light);
-            margin-bottom: 8px;
-            font-size: 14px;
-            line-height: 1.5;
         }
 
         .protocol-number {
@@ -352,7 +286,6 @@
             border-radius: 6px;
             margin-top: 15px;
             font-weight: bold;
-            font-size: 14px;
         }
 
         .error-message {
@@ -369,32 +302,6 @@
         .error-message.show {
             display: block;
         }
-
-        .loading {
-            display: none;
-            text-align: center;
-            color: var(--primary);
-            margin: 20px 0;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--primary);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading.show {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -406,15 +313,14 @@
         </div>
 
         <div class="content">
-            <p style="color: var(--text-light); margin-bottom: 30px; line-height: 1.6;">
+            <p class="intro-text">
                 Registre sua contestação de reanálise. Os dados são salvos diretamente na planilha de controle.
             </p>
 
-            <div class="error-message" id="error-message"></div>
-            <div class="loading" id="loading"><div class="spinner"></div><p>Enviando reanálise...</p></div>
+            <div class="error-message" id="errorMsg"></div>
 
-            <form id="contestation-form">
-                <!-- SEÇÃO 1: IDENTIFICAÇÃO DO CHAMADO -->
+            <form id="mainForm">
+                <!-- SEÇÃO 1 -->
                 <div class="form-section">
                     <div class="section-header">
                         <div class="section-number">1</div>
@@ -423,14 +329,13 @@
                             <p class="section-subtitle">Informações básicas da reanálise</p>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="chamado-id">ID do Chamado <span class="required">*</span></label>
-                        <input type="text" id="chamado-id" name="chamado-id" placeholder="ex: 500U500000nGfg6IAC" required>
+                        <label for="chamadoId">ID do Chamado <span class="required">*</span></label>
+                        <input type="text" id="chamadoId" placeholder="ex: 500U500000nGfg6IAC" required>
                     </div>
                 </div>
 
-                <!-- SEÇÃO 2: RESPONSÁVEIS -->
+                <!-- SEÇÃO 2 -->
                 <div class="form-section">
                     <div class="section-header">
                         <div class="section-number">2</div>
@@ -439,23 +344,21 @@
                             <p class="section-subtitle">Analista e supervisor da contestação</p>
                         </div>
                     </div>
-
-                    <div class="form-row">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                         <div class="form-group">
-                            <label for="analista-email">Analista Responsável <span class="required">*</span></label>
-                            <select id="analista-email" name="analista-email" required>
+                            <label for="analistaEmail">Analista Responsável <span class="required">*</span></label>
+                            <select id="analistaEmail" required>
                                 <option value="">— Selecione um analista —</option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label for="supervisor">Supervisor da Contestação</label>
-                            <input type="text" id="supervisor" name="supervisor" readonly placeholder="Preenchido automaticamente">
+                            <input type="text" id="supervisor" disabled placeholder="Preenchido automaticamente">
                         </div>
                     </div>
                 </div>
 
-                <!-- SEÇÃO 3: CRITÉRIOS CONTESTADOS -->
+                <!-- SEÇÃO 3 -->
                 <div class="form-section">
                     <div class="section-header">
                         <div class="section-number">3</div>
@@ -464,43 +367,38 @@
                             <p class="section-subtitle">Selecione os critérios de desacordo</p>
                         </div>
                     </div>
-
-                    <div class="criteria-container">
-                        <div class="criteria-group">
-                            <div class="criteria-group-title">📋 Critérios</div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-1" name="criterios" value="Condução - Comunicação clara">
-                                <label for="crit-1">Condução - Comunicação clara</label>
-                            </div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-2" name="criterios" value="Condução - Resposta a todas as perguntas">
-                                <label for="crit-2">Condução - Resposta a todas as perguntas</label>
-                            </div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-3" name="criterios" value="Processos - Autoatendimento">
-                                <label for="crit-3">Processos - Autoatendimento</label>
-                            </div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-4" name="criterios" value="Comportamento - Encerramento abrupto">
-                                <label for="crit-4">Comportamento - Encerramento abrupto</label>
-                            </div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-5" name="criterios" value="Comportamento - Descaso/Frieza">
-                                <label for="crit-5">Comportamento - Descaso/Frieza</label>
-                            </div>
-                            <div class="criteria-item">
-                                <input type="checkbox" id="crit-6" name="criterios" value="Compliance - LGPD">
-                                <label for="crit-6">Compliance - LGPD</label>
-                            </div>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit1" name="criterios" value="Condução - Comunicação clara">
+                            <label for="crit1">Condução - Comunicação clara</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit2" name="criterios" value="Condução - Resposta a todas as perguntas">
+                            <label for="crit2">Condução - Resposta a todas as perguntas</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit3" name="criterios" value="Processos - Autoatendimento">
+                            <label for="crit3">Processos - Autoatendimento</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit4" name="criterios" value="Comportamento - Encerramento abrupto">
+                            <label for="crit4">Comportamento - Encerramento abrupto</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit5" name="criterios" value="Comportamento - Descaso/Frieza">
+                            <label for="crit5">Comportamento - Descaso/Frieza</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="crit6" name="criterios" value="Compliance - LGPD">
+                            <label for="crit6">Compliance - LGPD</label>
                         </div>
                     </div>
-
                     <div class="attention-box">
                         ⚠️ Atenção! Se tiver mais critérios para contestar, seguir com uma nova abertura de contestação.
                     </div>
                 </div>
 
-                <!-- SEÇÃO 4: JUSTIFICATIVA E EVIDÊNCIAS -->
+                <!-- SEÇÃO 4 -->
                 <div class="form-section">
                     <div class="section-header">
                         <div class="section-number">4</div>
@@ -509,31 +407,26 @@
                             <p class="section-subtitle">Explique sua posição com detalhes</p>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <label for="justificativa">Justificativa Detalhada <span class="required">*</span></label>
-                        <textarea id="justificativa" name="justificativa" placeholder="Detalhe por que você discorda da avaliação..." required></textarea>
+                        <textarea id="justificativa" placeholder="Detalhe por que você discorda da avaliação..." required></textarea>
                     </div>
-
                     <div class="form-group">
                         <label for="evidencia">Link de Evidências (opcional)</label>
-                        <input type="url" id="evidencia" name="evidencia" placeholder="ex: https://docs.google.com/spreadsheets/d/...">
-                        <div class="hint-text">Gravação, chat, documento ou outro recurso que comprove sua reanálise.</div>
+                        <input type="text" id="evidencia" placeholder="ex: https://docs.google.com/...">
                     </div>
                 </div>
 
-                <!-- BOTÕES -->
                 <div class="button-group">
                     <button type="submit">Registrar Reanálise</button>
                     <button type="reset">Nova Reanálise</button>
                 </div>
 
-                <!-- CARD DE SUCESSO -->
-                <div class="success-card" id="success-card">
+                <div class="success-card" id="successCard">
                     <div class="success-icon">✅</div>
                     <h3>Reanálise Registrada com Sucesso!</h3>
                     <p>Sua contestação foi salva na planilha de controle. Um supervisor entrará em contato em breve.</p>
-                    <div class="protocol-number" id="protocol-number"></div>
+                    <div class="protocol-number" id="protocolNum"></div>
                 </div>
             </form>
         </div>
@@ -543,7 +436,7 @@
         // ============================================
         // MAPEAMENTO ANALISTAS → SUPERVISORES
         // ============================================
-        const analistas = {
+        const ANALISTAS = {
             "carlos.oliveira@turbi.com.br": "LUCINEIA BIANCHI",
             "bruna.cornelio@turbi.com.br": "DEBORAH CARVALHO",
             "edinaldo.bento@turbi.com.br": "LARISSA CARVALHO",
@@ -591,122 +484,59 @@
             "dalton.nascimento@turbi.com.br": "LARISSA CARVALHO"
         };
 
-        // ============================================
-        // CONFIGURAÇÕES
-        // ============================================
-        const SHEET_ID = '1jEXJ386zgETmB75azKSTaAkD8nTumAqguobHmRFw804';
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby6Bt81PiXeIG9TKvAZfCjlH1pVOJXvVpspkm05x8CIKif9WDT459v698Baz1Da9NSa/exec';
 
         // ============================================
-        // INICIALIZAR DROPDOWN DE ANALISTAS
+        // INICIALIZAR
         // ============================================
-        function initializeAnalistas() {
-            const select = document.getElementById('analista-email');
-            const sortedEmails = Object.keys(analistas).sort();
-
-            sortedEmails.forEach(email => {
-                const option = document.createElement('option');
-                option.value = email;
-                option.textContent = email;
-                select.appendChild(option);
+        function initForm() {
+            const select = document.getElementById('analistaEmail');
+            const emails = Object.keys(ANALISTAS).sort();
+            emails.forEach(email => {
+                const opt = document.createElement('option');
+                opt.value = email;
+                opt.textContent = email;
+                select.appendChild(opt);
             });
         }
 
         // ============================================
         // ATUALIZAR SUPERVISOR
         // ============================================
-        document.getElementById('analista-email').addEventListener('change', function() {
-            const supervisor = analistas[this.value] || '';
-            document.getElementById('supervisor').value = supervisor;
+        document.getElementById('analistaEmail').addEventListener('change', function() {
+            document.getElementById('supervisor').value = ANALISTAS[this.value] || '';
         });
 
         // ============================================
-        // VALIDAÇÃO DO FORMULÁRIO
+        // ENVIAR FORM
         // ============================================
-        function validate() {
-            const chamadoId = document.getElementById('chamado-id').value.trim();
-            const analistaEmail = document.getElementById('analista-email').value.trim();
-            const justificativa = document.getElementById('justificativa').value.trim();
-
-            const criteriosChecked = Array.from(
-                document.querySelectorAll('input[name="criterios"]:checked')
-            ).map(cb => cb.value);
-
-            if (!chamadoId) {
-                showError('Por favor, preencha o ID do Chamado');
-                return false;
-            }
-
-            if (!analistaEmail) {
-                showError('Por favor, selecione um analista');
-                return false;
-            }
-
-            if (!criteriosChecked || criteriosChecked.length === 0) {
-                showError('Por favor, selecione pelo menos um critério');
-                return false;
-            }
-
-            if (!justificativa) {
-                showError('Por favor, preencha a justificativa da contestação');
-                return false;
-            }
-
-            return true;
-        }
-
-        // ============================================
-        // EXIBIR ERRO
-        // ============================================
-        function showError(message) {
-            const errorDiv = document.getElementById('error-message');
-            errorDiv.textContent = message;
-            errorDiv.classList.add('show');
-            setTimeout(() => errorDiv.classList.remove('show'), 5000);
-        }
-
-        // ============================================
-        // GERAR PROTOCOLO
-        // ============================================
-        function generateProtocol() {
-            const timestamp = Date.now();
-            const random = Math.random().toString(36).substring(2, 8).toUpperCase();
-            return `TURBI-${timestamp}-${random}`;
-        }
-
-        // ============================================
-        // ENVIAR FORMULÁRIO
-        // ============================================
-        document.getElementById('contestation-form').addEventListener('submit', async function(e) {
+        document.getElementById('mainForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            if (!validate()) return;
+            // Validar campos obrigatórios
+            const chamadoId = document.getElementById('chamadoId').value.trim();
+            const analistaEmail = document.getElementById('analistaEmail').value.trim();
+            const justificativa = document.getElementById('justificativa').value.trim();
 
-            const loading = document.getElementById('loading');
-            const successCard = document.getElementById('success-card');
+            if (!chamadoId || !analistaEmail || !justificativa) {
+                showError('Preencha todos os campos obrigatórios');
+                return;
+            }
 
-            loading.classList.add('show');
+            // Coletar critérios
+            const checkboxes = document.querySelectorAll('input[name="criterios"]:checked');
+            const criterios = Array.from(checkboxes).map(cb => cb.value);
 
-            const chamadoId = document.getElementById('chamado-id').value;
-            const analistaEmail = document.getElementById('analista-email').value;
-            const analistaNome = analistaEmail.split('.').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            if (criterios.length === 0) {
+                showError('Selecione pelo menos um critério');
+                return;
+            }
+
+            // Preparar dados
             const supervisor = document.getElementById('supervisor').value;
-            
-            // Coletar critérios com debug
-            const checkboxes = Array.from(document.querySelectorAll('input[name="criterios"]:checked'));
-            console.log('Checkboxes encontrados:', checkboxes.length);
-            
-            const criterios = checkboxes.map((cb, index) => {
-                const valor = cb.value;
-                console.log(`Critério ${index}:`, valor);
-                return valor;
-            });
-            
-            console.log('Array final de critérios:', criterios);
-            
-            const justificativa = document.getElementById('justificativa').value;
-            const evidencia = document.getElementById('evidencia').value || null;
-            const protocol = generateProtocol();
+            const evidencia = document.getElementById('evidencia').value.trim() || null;
+            const analistaNome = analistaEmail.split('.').map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+            const protocolo = 'TURBI-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
 
             const payload = {
                 timestamp: new Date().toISOString(),
@@ -718,43 +548,40 @@
                 justificativa: justificativa,
                 evidencia: evidencia,
                 status: 'ABERTO',
-                protocolo: protocol
+                protocolo: protocolo
             };
 
-            console.log('Payload enviado:', JSON.stringify(payload, null, 2));
-
             try {
-                const response = await fetch(APPS_SCRIPT_URL, {
+                await fetch(APPS_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
 
-                loading.classList.remove('show');
-
-                document.getElementById('protocol-number').textContent = `Protocolo: ${protocol}`;
-                successCard.classList.add('show');
+                document.getElementById('protocolNum').textContent = `Protocolo: ${protocolo}`;
+                document.getElementById('successCard').classList.add('show');
 
                 setTimeout(() => {
                     this.reset();
                     document.getElementById('supervisor').value = '';
-                    successCard.classList.remove('show');
+                    document.getElementById('successCard').classList.remove('show');
                 }, 3000);
 
             } catch (error) {
-                loading.classList.remove('show');
-                showError('Erro ao enviar. Verifique sua conexão e tente novamente.');
-                console.error('Erro:', error);
+                showError('Erro ao enviar. Tente novamente.');
             }
         });
 
-        // ============================================
-        // INICIALIZAR
-        // ============================================
-        initializeAnalistas();
+        function showError(msg) {
+            const errorDiv = document.getElementById('errorMsg');
+            errorDiv.textContent = msg;
+            errorDiv.classList.add('show');
+            setTimeout(() => errorDiv.classList.remove('show'), 5000);
+        }
+
+        // Inicializar ao carregar
+        window.addEventListener('load', initForm);
     </script>
 </body>
 </html>
